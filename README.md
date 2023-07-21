@@ -6,7 +6,7 @@ Este repositório deverá servir de base para ser realizado o fork para desenvol
 
 A URL deste repositório deverá ser entregue na plataforma de alunos da Cubos Academy na página da parte de BACKEND do desafio.
 
-A versão final do código de cada sprint deverá estar na branch principal do repositório e sim, a cada semana acumulará as alterações das sprints, portanto a segunda sobrescrevendo a primeira e assim por diante..
+A versão final do código de cada sprint deverá estar na branch principal do repositório e sim, a cada semana acumulará as alterações das sprints, portanto a segunda sobrescrevendo a primeira e assim por diante.
 
 ---
 
