@@ -5,7 +5,7 @@ const validateBody = joiSchema => async (req, res, next) => {
 
 
     } catch (error) {
-        return res.status(400).json({ mesage: error.message })
+        return res.status(400).json({ message: error.message })
     }
     next()
 }

@@ -9,7 +9,7 @@ const register = async (req, res) => {
         const checkemail = await knex('usuarios').where('email', email).first()
 
         if (checkemail) {
-            return res.status(400).json({ mensage: "E-email já cadastrado" })
+            return res.status(400).json({ message: "E-email já cadastrado" })
         }
 
         const passwordCrypt = await bcrypt.hash(senha, 10);
@@ -20,11 +20,11 @@ const register = async (req, res) => {
             nome_usuario: nome
         })
 
-        return res.status(201).json({ mensage: 'Cadastro realizado com sucesso' })
+        return res.status(201).json({ message: 'Cadastro realizado com sucesso' })
 
 
     } catch (error) {
-        return res.status(500).json({ mensage: 'Erro interno do servidor' })
+        return res.status(500).json({ message: 'Erro interno do servidor' })
 
     }
 }

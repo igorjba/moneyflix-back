@@ -3,7 +3,7 @@ const joi = require('joi')
 const SchemesRegister = joi.object({
     nome: joi.string().required().messages({
         'any.required': 'Este campo deve ser preenchido',
-        'string.empty': 'Este campo é obrigatorio'
+        'string.empty': 'Este campo é obrigatório'
     }),
 
     email: joi.string().email().required().messages({
@@ -35,7 +35,7 @@ const SchemesLogin = joi.object({
 const SchemesUpdate = joi.object({
     nome: joi.string().required().messages({
         'any.required': 'Este campo deve ser preenchido',
-        'string.empty': 'Este campo é obrigatorio'
+        'string.empty': 'Este campo é obrigatório'
     }),
 
     email: joi.string().email().required().messages({
