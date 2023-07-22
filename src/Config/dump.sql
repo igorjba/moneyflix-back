@@ -7,8 +7,8 @@ create table usuarios (
     nome_usuario text not null,
     email text not null unique,
     senha text not null,
-  	cpf NCHAR(11) UNIQUE is null,
-    telefone NCHAR(11) is null
+  	cpf NCHAR(11) UNIQUE,
+    telefone NCHAR(11) 
 );
 
 
@@ -31,7 +31,7 @@ create table clientes (
   	status text default 'Em dia'
 );
 
- update clientes set status = 'Inadimplentes';
+ update clientes from id_cliente set status = 'Inadimplentes';
 
 
 
