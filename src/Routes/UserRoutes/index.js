@@ -6,8 +6,6 @@ const { register } = require('../../Controllers/Users/registerUser')
 const { login } = require('../../Controllers/Users/loginUser')
 
 
-const { SchemesRegister } = require('../../Schemes/index')
-
 const UserRoutes = express()
 
 UserRoutes.get('/usuario')
