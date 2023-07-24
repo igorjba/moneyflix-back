@@ -13,5 +13,3 @@ app.use(cors())
 app.use(routes)
 
 app.listen(PORT)
-
-//teste index
