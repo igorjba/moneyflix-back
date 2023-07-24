@@ -7,13 +7,13 @@ const currentDate = new Date().setHours(0, 0, 0, 0, 0)
 const registerCharges = async (req, res) => {
 
     const { descricao, valor, vencimento, status } = req.body;
-    const { id } = req.params;
+    const { id_cliente } = req.params;
 
 
     try {
         await SchemesCharges.validate(req.body);
 
-        const clientExists = await knex('clientes').where('id', id_cliente).first()
+        const clientExists = await knex('clientes').where('id_cliente', id_cliente).first()
 
         if (!clientExists) {
             return res.status(400).json({ message: 'Cliente não encontrado' })
@@ -43,13 +43,13 @@ const registerCharges = async (req, res) => {
 
 const updateCharges = async (req, res) => {
 
-    const { id } = req.params;
+    const { id_cobranca } = req.params;
     let { descricao, valor, vencimento, status } = req.body;
 
     try {
         await SchemesCharges.validate(req.body);
 
-        const charges = await knex('cobrancas').where('id', id_cobranca).first();
+        const charges = await knex('cobrancas').where('id_cobranca', id_cobranca).first();
 
         if (!charges) {
             return res.status(400).json({ message: 'Cobrança não cadastrada' })
