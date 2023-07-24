@@ -20,13 +20,14 @@ const { SchemesRegister, SchemesLogin, SchemesUpdate, SchemesCharges } = require
 
 const route = express()
 
+route.get('/', (req, res) => {
+    return res.status(200).send('ok')
+})
+
 route.post('/usuario', validadeBody(SchemesRegister), registerUser)
 // route.post('/login', validadeBody(SchemesLogin), loginUser)
 // route.put('/usuario',validadeBody(SchemesUpdate), UpdateUser)
 
-route.get('/', (req, res) => {
-    return res.status(200).send('ok')
-})
 
 route.post('/cobranca/cadastro/:id', validadeBody(SchemesCharges), registerCharges)
 route.put('/cobranca/editar/:id', validadeBody(SchemesCharges), updateCharges)
