@@ -2,33 +2,32 @@ Create database m05cobranca;
 
 drop table if exists usuarios;
 
-create table usuarios (
-    id_usuario serial primary key,
-    nome_usuario text not null,
-    email text not null unique,
-    senha text not null,
-  	cpf NCHAR(11) UNIQUE,
-    telefone NCHAR(11) 
+CREATE TABLE usuarios (
+    id_usuario SERIAL PRIMARY KEY,
+    nome_usuario TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    senha TEXT NOT NULL,
+    cpf NCHAR(11) UNIQUE,
+    telefone NCHAR(11)
 );
-
 
 
 drop table if exists clientes;
 
-create table clientes (
-    id_cliente serial primary key,
-  	id_usuario integer references usuarios(id),
-    nome_cliente text not null,
-    email text not null unique,
-    cpf NCHAR(11) UNIQUE NOT NULL,
-    telefone NCHAR(11) NOT NULL,
-    cep NCHAR(8),
-    endereco text,
-    complemento text,
-    bairro text,
-    cidade text,
-    estado NCHAR(2),
-  	status text default 'Em dia'
+CREATE TABLE clientes (
+    id_cliente SERIAL PRIMARY KEY,
+    id_usuario INTEGER REFERENCES usuarios(id_usuario),
+    nome_cliente TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    cpf VARCHAR(11) UNIQUE NOT NULL,
+    telefone VARCHAR(11) NOT NULL,
+    cep VARCHAR(8),
+    endereco TEXT,
+    complemento TEXT,
+    bairro TEXT,
+    cidade TEXT,
+    estado VARCHAR(2),
+    status TEXT DEFAULT 'Em dia'
 );
 
  update clientes from id_cliente set status = 'Inadimplentes';
@@ -38,14 +37,14 @@ create table clientes (
 
 drop table if exists cobrancas;
 
-create table cobrancas(
-    id_cobranca serial primary key,
-  	id_usuario integer references usuarios(id),
-  	id_cliente int references clientes(id) not null,
-    descricao text ,
-    valor bigint not null,
-    vencimento date not null,
-  	status text default 'Pendente'
+CREATE TABLE cobrancas (
+    id_cobranca SERIAL PRIMARY KEY,
+    id_usuario INTEGER REFERENCES usuarios(id_usuario),
+    id_cliente INTEGER REFERENCES clientes(id_cliente) NOT NULL,
+    descricao TEXT NOT NULL,
+    valor BIGINT NOT NULL,
+    vencimento DATE NOT NULL,
+    status TEXT DEFAULT 'Pendente'
 );
 
 update cobrancas set status = 'Vencida';
