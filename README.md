@@ -74,7 +74,7 @@ Essa é a rota que permite o usuario cadastrado realizar o login no sistema.
 ```
 
 ---
-### **COBRANÇAS*
+### **COBRANÇAS**
 
 #### `POST` `/cobranca/cadastro/:id`
 
