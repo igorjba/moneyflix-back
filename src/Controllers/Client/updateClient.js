@@ -83,7 +83,7 @@ const updateClient = async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        return res.status(500).json({message: "Erro interno do servidor!"});
+        return res.status(400).json({message: error.message});
     }
 }
 

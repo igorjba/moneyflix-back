@@ -100,6 +100,10 @@ const SchemesNewClients = joi.object({
     estado: joi.string().messages({
         'string.empty': 'Informe um estado válido!'
     }),
+
+    status: joi.string().messages({
+        'string.empty': 'Estatus inválido!'
+    }), 
 })
 
 
