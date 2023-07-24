@@ -9,8 +9,8 @@ const { detailClient } = require('./Controllers/Client/detailsClient')
 const { listClient } = require('./Controllers/Client/listClient')
 const { updateClient } = require('./Controllers/Client/updateClient')
 
-const { registerCharges, updateCharges, listCharges, deleteCharges } = require('./Controllers/Charges/charges')
-const { filterStatusCharges, summaryOverdue, summaryPending, summaryPaid } = require('./Controllers/Charges/listCharges')
+const { registerCharges, updateCharges, listCharges, deleteCharges } = require('./Controllers/Billing/charges')
+const { filterStatusCharges, summaryOverdue, summaryPending, summaryPaid } = require('./Controllers/Billing/listCharges')
 
 
 const validadeBody = require('./Middleware/authorization')
