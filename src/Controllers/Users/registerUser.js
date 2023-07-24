@@ -1,7 +1,7 @@
 const knex = require('../../Config/database')
 const bcrypt = require('bcrypt')
 
-const register = async (req, res) => {
+const registerUser = async (req, res) => {
     const { nome, email, senha } = req.body
 
     try {
@@ -29,4 +29,4 @@ const register = async (req, res) => {
     }
 }
 
-module.exports = { register }
+module.exports = { registerUser }
