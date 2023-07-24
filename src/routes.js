@@ -39,5 +39,3 @@ route.get('/cobranca/pendentes', summaryPending)
 route.get('/cobranca/pagas', summaryPaid)
 
 module.exports = route
-
-//teta routes
