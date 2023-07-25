@@ -1,8 +1,8 @@
 const express = require('express');
 
+const { updateUser } = require("./Controllers/Users/updateUser");
 const { registerUser } = require('./Controllers/Users/registerUser')
 const { loginUser } = require('./Controllers/Users/loginUser')
-const { UpdateUser } = require('./Controllers/Users/updateUser')
 
 const registerNewClient = require('./Controllers/Client/registerClient')
 const detailClient = require('./Controllers/Client/detailsClient')
@@ -15,7 +15,6 @@ const { filterStatusCharges, summaryOverdue, summaryPending, summaryPaid } = req
 
 const validadeBody = require('./Middleware/authorization')
 const { SchemesRegister, SchemesLogin, SchemesUpdate, SchemesCharges, SchemesNewClients, SchemesUpdateClient } = require('./Schemes/index')
-
 
 const route = express()
 
@@ -30,8 +29,8 @@ route.post('/usuario', validadeBody(SchemesRegister), registerUser)
 
 route.post('/cobranca/cadastro/:id', validadeBody(SchemesCharges), registerCharges)
 route.put('/cobranca/editar/:id', validadeBody(SchemesCharges), updateCharges)
-route.get('/cobranca', validadeBody(SchemesCharges), listCharges)
-route.delete('/cobranca/delete/:id', validadeBody(SchemesCharges), deleteCharges)
+route.get('/cobranca', listCharges)
+route.delete('/cobranca/delete/:id', deleteCharges)
 
 route.get('/cobranca/total', filterStatusCharges)
 route.get('/cobranca/vencidas', summaryOverdue)
@@ -40,7 +39,9 @@ route.get('/cobranca/pagas', summaryPaid)
 
 route.get('/client', listClient)
 route.get('/client/:id', detailClient)
-route.post('/client',validadeBody(SchemesNewClients), registerNewClient)
+route.post('/client', validadeBody(SchemesNewClients), registerNewClient)
 route.post('/client/:id', validadeBody(SchemesUpdateClient), updateClient)
+
+
 
 module.exports = route
