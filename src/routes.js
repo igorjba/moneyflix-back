@@ -1,5 +1,5 @@
 const express = require("express");
-
+const { verifyToken } = require("./Middleware/verifyToken");
 const { updateUser, showUser } = require("./Controllers/Users/updateUser");
 const { registerUser } = require("./Controllers/Users/registerUser");
 const { loginUser } = require("./Controllers/Users/loginUser");
@@ -41,8 +41,10 @@ route.get("/", (req, res) => {
 route.post("/usuario", validadeBody(SchemesRegister), registerUser);
 // route.post('/login', validadeBody(SchemesLogin), loginUser)
 // route.put('/usuario',validadeBody(SchemesUpdate), UpdateUser)
-route.get("/user/show", showUser);
-route.put("/user/update", updateUser);
+route.post("/login", loginUser);
+
+route.get("/user/show", verifyToken, showUser);
+route.put("/user/update", verifyToken, updateUser);
 
 route.post(
   "/cobranca/cadastro/:id",

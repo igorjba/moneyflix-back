@@ -33,6 +33,9 @@ const updateUser = async (req, res) => {
             return res
               .status(400)
               .json({ message: "CPF já cadastrado para outro usuário!" });
+          }
+          if (cpf.length != 11) {
+            return res.json("cpf incorreto");
           } else {
             user_parser.cpf = cpf;
           }
