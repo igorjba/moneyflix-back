@@ -7,13 +7,12 @@ const currentDate = new Date().setHours(0, 0, 0, 0, 0)
 const registerCharges = async (req, res) => {
 
     const { descricao, valor, vencimento, status } = req.body;
-    const { id_cliente } = req.params;
-
+    const { id } = req.params;
 
     try {
         await SchemesCharges.validate(req.body);
 
-        const clientExists = await knex('clientes').where('id_cliente', id_cliente).first()
+        const clientExists = await knex('clientes').where("id_cliente", id).first()
 
         if (!clientExists) {
             return res.status(400).json({ message: 'Cliente não encontrado' })
@@ -26,10 +25,11 @@ const registerCharges = async (req, res) => {
         if (!charges) {
             return res.status(400).json({ message: 'Cobrança não foi cadastrada' });
         }
+        console.log(charges[0].vencimento)
 
         if (charges[0].status === 'Pendente' && charges[0].vencimento < currentDate) {
             charges[0] = await knex('cobrancas')
-                .where('id', charges[0].id_cobranca)
+                .where('id_cobranca', charges[0].id_cobranca)
                 .update({ status: 'Vencida' })
                 .returning('*')
         }
@@ -43,13 +43,14 @@ const registerCharges = async (req, res) => {
 
 const updateCharges = async (req, res) => {
 
-    const { id_cobranca } = req.params;
     let { descricao, valor, vencimento, status } = req.body;
+    const { id } = req.params;
 
     try {
         await SchemesCharges.validate(req.body);
 
-        const charges = await knex('cobrancas').where('id_cobranca', id_cobranca).first();
+        const charges = await knex('cobrancas').where('id_cobranca', id).first();
+
 
         if (!charges) {
             return res.status(400).json({ message: 'Cobrança não cadastrada' })
@@ -66,31 +67,27 @@ const updateCharges = async (req, res) => {
 
         const editedData = await knex('cobrancas')
             .update({ descricao, valor, vencimento, status })
-            .where({ id_cobranca })
+            .where('id_cobranca', id)
 
         if (!editedData) {
             return res.status(400).json({ message: 'Cobrança não foi alterada' })
         }
-
         return res.status(200).json({ message: 'Cobrança alterada com sucesso!' })
-
 
     } catch (error) {
         return res.status(500).json({ message: 'Erro interno do servidor' })
     }
-
-
-
 }
 
 const listCharges = async (req, res) => {
-    const { status, data } = req.query;
+    const { status, data } = req.body;
 
     try {
 
         const charges = await knex('cobrancas')
 
         for (let charge of charges) {
+
             if (charge.status === 'Pendente' && ++charge.vencimento < currentDate) {
                 charge.status = await knex('cobrancas')
                     .where('id_cobranca', charge.id_cobranca)
@@ -104,15 +101,16 @@ const listCharges = async (req, res) => {
         }
 
         const updateBilling = await knex('cobrancas')
-            .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cobranca')
-            .select('cobrancas.*', 'clientes.nome_clientes as cliente')
+            .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
+            .select('cobrancas.*', 'clientes.nome_cliente as cliente')
             .orderBy('id_cliente');
 
         if (status && data) {
+
             const listChargesFilter = await knex('cobrancas')
                 .where('cobrancas.status', status)
                 .andWhere('cobrancas.vencimento', data)
-                .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cobranca')
+                .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
                 .select('cobrancas.*', 'clientes.nome_cliente as cliente')
                 .orderBy('id_cliente');
 
@@ -121,7 +119,7 @@ const listCharges = async (req, res) => {
         } else if (status) {
             const listChargesFilter = await knex('cobrancas')
                 .where('cobrancas.status', status)
-                .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cobranca')
+                .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
                 .select('cobrancas.*', 'clientes.nome_cliente as cliente')
                 .orderBy('id_cliente');
 
@@ -130,7 +128,7 @@ const listCharges = async (req, res) => {
         } else if (data) {
             const listChargesFilter = await knex('cobrancas')
                 .where('cobrancas.vencimento', data)
-                .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cobranca')
+                .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
                 .select('cobrancas.*', 'clientes.nome_cliente as cliente')
                 .orderBy('id_cliente');
 
@@ -140,18 +138,17 @@ const listCharges = async (req, res) => {
         return res.status(200).json(updateBilling)
 
     } catch (error) {
-
         return res.status(400).json({ message: 'Erro interno do servidor' })
     }
 }
 
 const deleteCharges = async (req, res) => {
-    const { id_cobranca } = req.params;
+    const { id } = req.params;
 
     try {
 
-        let charge = await knex('cobrancas').where({ id_cobranca }).first()
-
+        let charge = await knex('cobrancas').where('id_cobranca', id).first()
+        console.log(charge)
         if (!charge) {
             return res.status(400).json({ message: 'Cobrança não existe' })
         }
@@ -168,7 +165,7 @@ const deleteCharges = async (req, res) => {
             return res.status(400).json({ message: 'Cobrança paga não pode ser excluída' })
         }
 
-        const deleteCharge = await knex('cobrancas').where({ id_cobranca }).del()
+        const deleteCharge = await knex('cobrancas').where('id_cobranca', id).del()
 
         if (!deleteCharge) {
             return res.status(400).json({ message: 'Esta cobrança não pode ser excluida' })
