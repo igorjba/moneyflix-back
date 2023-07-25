@@ -1,13 +1,8 @@
 const express = require('express');
 
-
-const { login } = require("./Controllers/Users/loginUser");
 const { updateUser } = require("./Controllers/Users/updateUser");
-
-
 const { registerUser } = require('./Controllers/Users/registerUser')
 const { loginUser } = require('./Controllers/Users/loginUser')
-const { UpdateUser } = require('./Controllers/Users/updateUser')
 
 const registerNewClient = require('./Controllers/Client/registerClient')
 const detailClient = require('./Controllers/Client/detailsClient')
@@ -21,13 +16,11 @@ const { filterStatusCharges, summaryOverdue, summaryPending, summaryPaid } = req
 const validadeBody = require('./Middleware/authorization')
 const { SchemesRegister, SchemesLogin, SchemesUpdate, SchemesCharges, SchemesNewClients, SchemesUpdateClient } = require('./Schemes/index')
 
-
 const route = express()
 
 route.get('/', (req, res) => {
     return res.status(200).send('ok')
 })
-
 
 route.post('/usuario', validadeBody(SchemesRegister), registerUser)
 // route.post('/login', validadeBody(SchemesLogin), loginUser)
