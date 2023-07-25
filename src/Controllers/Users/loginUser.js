@@ -2,7 +2,7 @@ const knex = require('../../Config/database')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const passJWT = require('../../.env')
-let userId = 0;
+const session = require("express-session");
 
 const loginUser = async (req, res) => {
     const { email, senha } = req.body
@@ -17,13 +17,12 @@ const loginUser = async (req, res) => {
 
         if (!verifyPassword) return res.status(404).json({ messageError: "E-mail ou senha inválidos" })
 
-        const token = jwt.sign({ id: user.id }, passJWT, {
-            expiresIn: '8h',
-        })
+        const token = jwt.sign({ id: user.id_usuario }, passJWT, { expiresIn: '8h' })
 
-        userId = user.id_usuario
+        req.session.user = user;
 
         const { senha: _, ...user2 } = user;
+
         return res.json({
             token,
             user2
@@ -34,4 +33,5 @@ const loginUser = async (req, res) => {
     }
 }
 
-module.exports = { loginUser, userId }
+module.exports = { loginUser }
+
