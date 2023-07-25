@@ -25,8 +25,7 @@ const registerCharges = async (req, res) => {
         if (!charges) {
             return res.status(400).json({ message: 'Cobrança não foi cadastrada' });
         }
-        console.log(charges[0].vencimento)
-
+      
         if (charges[0].status === 'Pendente' && charges[0].vencimento < currentDate) {
             charges[0] = await knex('cobrancas')
                 .where('id_cobranca', charges[0].id_cobranca)
