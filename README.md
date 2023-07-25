@@ -74,6 +74,53 @@ Essa é a rota que permite o usuario cadastrado realizar o login no sistema.
 ```
 
 ---
+
+### **Atualizar Usuario**
+
+#### `PUT` `/user/update`
+
+Essa é a rota que permite o usuario cadastrado atualizar informações do próprio usuário.
+
+#### **Exemplo de requisição**
+
+```javascript
+// PUT /user/update
+{
+    "email": "isamara123@email.com"
+}
+```
+OU (qualquer outro campo)
+```javascript
+// PUT /user/update
+{
+    "nome": Isamara Pereira"
+}
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+{ message: "Os campos nome e email são obrigatórios!" }
+}
+
+{
+{message: "Para alterar a senha, as duas senhas têm que ser iguais"}
+}
+
+//sucess (usuario atualizado)
+{
+    "id_usuario": 30,
+    "nome_usuario": "Isamara Peireira",
+    "email": "isamara123@email.com",
+    "senha": "$2b$10$lhwVc5uqq226psPiViVzneFzkYIhBTsLLWVj7SF72H5e43u7g.GNO",
+    "cpf": "41241242549",
+    "telefone": "1699999999 "
+}
+```
+
+---
 ### **COBRANÇAS**
 
 #### `POST` `/cobranca/cadastro/:id`
