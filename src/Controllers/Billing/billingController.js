@@ -147,7 +147,7 @@ const deleteCharges = async (req, res) => {
     try {
 
         let charge = await knex('cobrancas').where('id_cobranca', id).first()
-        console.log(charge)
+
         if (!charge) {
             return res.status(400).json({ message: 'Cobrança não existe' })
         }
