@@ -2,7 +2,7 @@ const knex = require('../../Config/database');
 
 const registerNewClient = async (req, res) => {
     const { nome, email, cpf, telefone, cep, logradouro, complemento, bairro, cidade, estado, status } = req.body;
-    //const {id_usuario} = re.user;
+    //const {id_usuario} = req.user;
 
     try {
         const checkemail = await knex('clientes').where({ email }).first();
@@ -65,13 +65,10 @@ const registerNewClient = async (req, res) => {
             }
         }
         if (status) {
-            if (status === 'Em dia' || status === 'Inadimplentes') {
-                const addStatusToNewClient = await knex('clientes').update({ status }).where({ id_cliente: id }).returning('*');
-                if (addStatusToNewClient.length === 0) {
-                    return res.status(400).json({ message: "Não foi possivel adicionar o estatus do cliente!" })
-                }
+            const addStatusToNewClient = await knex('clientes').update({ status }).where({ id_cliente: id }).returning('*');
+            if (addStatusToNewClient.length === 0) {
+                return res.status(400).json({ message: "Não foi possivel adicionar o estatus do cliente!" })
             }
-            return res.status(400).json({ message: "Informe um estatus Válido!" })
         }
 
         return res.status(201).json({ message: "Cliente adicionado com sucesso!" })
