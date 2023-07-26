@@ -1,4 +1,3 @@
-const session = require("express-session");
 const knex = require('../../Config/database');
 
 
