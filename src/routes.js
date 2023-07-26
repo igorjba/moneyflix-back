@@ -45,7 +45,7 @@ route.post("/login", validadeBody(SchemesLogin), loginUser);
 route.get("/usuario/listar", verifyToken, showUser);
 route.put("/usuario/atualizar", verifyToken, updateUser);
 route.post("/usuario/sair", verifyToken, logoutUser);
-route.delete("/usuario/deletar", verifyToken, deleteUser);
+route.delete("/usuario/deletar", deleteUser);
 
 route.post(
   "/cobranca/cadastro/:id",
