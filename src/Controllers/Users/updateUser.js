@@ -82,14 +82,10 @@ const updateUser = async (req, res) => {
 const showUser = async (req, res) => {
   userId = req.session.user.id_usuario;
   try {
-    if (token) {
-      const user = await knex("usuarios").where("id_usuario", userId).first();
-      return res.status(400).json(user);
-    } else {
-      return res.json("usuario sem sessao,redirecionar para pagina de login!");
-    }
+    const user = await knex("usuarios").where("id_usuario", userId).first();
+    return res.status(400).json(user);
   } catch (error) {
-    return res.status(400).json("erro interno do servidor");
+    return res.json("usuario sem sessao,redirecionar para pagina de login!");
   }
 };
 module.exports = { updateUser, showUser };
