@@ -79,7 +79,7 @@ const updateUser = async (req, res) => {
 };
 
 const showUser = async (req, res) => {
-  const id = req.body;
+  const { id } = req.headers;
   // const id = 51
   try {
     const user = await knex("usuarios").where("id_usuario", id).first();
