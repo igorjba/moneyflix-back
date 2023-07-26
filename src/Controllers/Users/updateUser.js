@@ -34,8 +34,8 @@ const updateUser = async (req, res) => {
               .status(400)
               .json({ message: "CPF já cadastrado para outro usuário!" });
           }
-          if (cpf.length != 11) {
-            return res.json("cpf incorreto");
+          if (String(cpf).length != 11) {
+            return res.status(400).json("CPF incorreto");
           } else {
             user_parser.cpf = cpf;
           }
@@ -72,7 +72,7 @@ const updateUser = async (req, res) => {
     req.session.user = user;
     return res.json(user);
   } else {
-    return res.json("usuario sem sessao,redirecionar para pagina de login!");
+    return res.json("Usuario sem sessao,redirecionar para pagina de login!");
   }
 };
 const showUser = async (req, res) => {

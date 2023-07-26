@@ -12,16 +12,12 @@ const loginUser = async (req, res) => {
     const user = verifyEmail;
 
     if (!verifyEmail)
-      return res
-        .status(404)
-        .json({ messageError: "E-mail ou senha inválidos" });
+      return res.status(404).json({ message: "E-mail ou senha inválidos" });
 
     const verifyPassword = await bcrypt.compare(senha, user.senha);
 
     if (!verifyPassword)
-      return res
-        .status(404)
-        .json({ messageError: "E-mail ou senha inválidos" });
+      return res.status(404).json({ message: "E-mail ou senha inválidos" });
 
     const token = jwt.sign({ id: user.id }, passJWT, {
       expiresIn: "8h",
@@ -29,10 +25,10 @@ const loginUser = async (req, res) => {
 
     req.session.user = user;
 
-    const { senha: _, ...user2 } = user;
+    const { senha: _, ...userLogged } = user;
     return res.json({
       token,
-      user2,
+      userLogged,
     });
   } catch (error) {
     return res.status(500).json(error.message);
