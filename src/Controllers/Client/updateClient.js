@@ -70,13 +70,10 @@ const updateClient = async (req, res) => {
         }
 
         if(status){
-            if(status === 'Em dia' || status === 'Inadimplente'){
-                const updateStatusClient = await knex('clientes').update({status}).where({id_cliente: id}).returning('*');
-                if(updateStatusClient.length === 0){
-                    return res.status(400).json({message: "Não foi possivel atualizar o estatus do cliente!"})
-                }
+            const updateStatusClient = await knex('clientes').update({status}).where({id_cliente: id}).returning('*');
+            if(updateStatusClient.length === 0){
+                return res.status(400).json({message: "Não foi possivel atualizar o estatus do cliente!"})
             }
-            return res.status(400).json({message: "Informe um estatus Válido!"})
         }
 
         return res.status(201).json({message: "Cliente atualizado com sucesso!"})
