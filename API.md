@@ -7,8 +7,11 @@ https://lazy-rose-moth-tam.cyclic.app/
 ```
 
 ## **Endpoints**
+
 ---
+
 ### **Cadastrar usuário**
+
 #### `POST` `/usuario`
 
 Essa é a rota que será utilizada para cadastrar um novo usuario no sistema.
@@ -29,15 +32,20 @@ Essa é a rota que será utilizada para cadastrar um novo usuario no sistema.
 ```javascript
 //error
 {
-    { message: "E-email já cadastrado" }
+  {
+    message: "E-email já cadastrado";
+  }
 }
 //sucess
 {
-    { message: 'Cadastro realizado com sucesso' }
+  {
+    message: "Cadastro realizado com sucesso";
+  }
 }
 ```
 
 ---
+
 ### **Login do usuário**
 
 #### `POST` `/login`
@@ -89,7 +97,9 @@ Essa é a rota que permite o usuario cadastrado atualizar informações do próp
     "email": "isamara123@email.com"
 }
 ```
+
 OU (qualquer outro campo)
+
 ```javascript
 // PUT /user/update
 {
@@ -121,6 +131,7 @@ OU (qualquer outro campo)
 ```
 
 ---
+
 ### **COBRANÇAS**
 
 #### `POST` `/cobranca/cadastro/:id`

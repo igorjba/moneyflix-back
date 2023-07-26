@@ -26,7 +26,6 @@ const validadeBody = require("./Middleware/authorization");
 const {
   SchemesRegister,
   SchemesLogin,
-  SchemesUpdate,
   SchemesCharges,
   SchemesNewClients,
   SchemesUpdateClient,
