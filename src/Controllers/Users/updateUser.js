@@ -3,6 +3,7 @@ const knex = require("../../Config/database");
 
 const updateUser = async (req, res) => {
   const token = req.session.userToken;
+
   if (token) {
     const { nome, email, senha, repete_senha, cpf, telefone } = req.body;
     const userId = req.session.user.id_usuario;
@@ -79,9 +80,9 @@ const updateUser = async (req, res) => {
   }
 };
 const showUser = async (req, res) => {
+  userId = req.session.user.id_usuario;
   try {
     if (token) {
-      userId = req.session.user.id_usuario;
       const user = await knex("usuarios").where("id_usuario", userId).first();
       return res.status(400).json(user);
     } else {
