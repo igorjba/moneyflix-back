@@ -2,32 +2,37 @@ const joi = require("joi");
 
 const SchemesRegister = joi.object({
   nome: joi.string().required().messages({
-    "any.required": "Este campo deve ser preenchido",
-    "string.empty": "Este campo é obrigatório",
+    'any.required': 'O campo nome é obrigatório',
+    'string.empty': 'O campo nome é obrigatório',
+    'string.base': 'O campo nome precisa ser uma string'
   }),
-  email: joi.string().email().required().messages({
-    "any.required": "Este campo deve ser preenchido",
-    "string.empty": "Este campo é obrigatório",
-    "string.email": "E-mail inválido",
+  email: joi.string().required().messages({
+    'any.required': 'O campo email é obrigatório',
+    'string.empty': 'O campo email é obrigatório',
+    'string.email': 'E-mail inválido',
+    'string.base': 'O campo email precisa ser uma string'
   }),
   senha: joi.string().required().messages({
-    "any.required": "Este campo deve ser preenchido",
-    "string.empty": "Este campo é obrigatório",
-  }),
-});
+    'any.required': 'O campo senha é obrigatório',
+    'string.empty': 'O campo senha é obrigatório',
+    'string.base': 'O campo senha precisa ser uma string'
+  })
+})
 
 const SchemesLogin = joi.object({
-  email: joi.string().email().required().messages({
-    "any.required": "Este campo deve ser preenchido",
-    "string.empty": "Este campo é obrigatório",
-    "string.email": "E-mail ou senha inválido",
+  email: joi.string().required().messages({
+    'any.required': 'O campo e-mail é obrigatório',
+    'string.empty': 'O campo e-mail é obrigatório',
+    'string.email': 'E-mail inválido',
+    'string.base': 'O campo e-mail precisa ser uma string'
   }),
-
   senha: joi.string().required().messages({
-    "any.required": "Este campo deve ser preenchido",
-    "string.empty": "Este campo é obrigatório",
-  }),
-});
+    'any.required': 'O campo senha é obrigatório',
+    'string.empty': 'O campo senha é obrigatório',
+    'string.base': 'O campo senha precisa ser uma string'
+  })
+})
+
 
 const SchemesCharges = joi.object({
   descricao: joi.string().required().messages({

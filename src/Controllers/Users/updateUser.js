@@ -1,94 +1,74 @@
-const session = require("express-session");
 const knex = require("../../Config/database");
+const bcrypt = require('bcrypt')
 
 const updateUser = async (req, res) => {
-  const { id } = req.headers;
+  const { nome, email, senha, cpf, telefone } = req.body;
+  const userId = req.user;
+
   try {
-    //const { id } = req.headers;
-    // const id = await req.session.user.id_usuario;
 
-    const { nome, email, senha, repete_senha, cpf, telefone } = req.body;
-    if (!nome || !email) {
-      return res
-        .status(400)
-        .json({ message: "Os campos nome e email são obrigatórios!" });
-    } else {
-      const user_parser = await knex("usuarios")
-        .where("id_usuario", id)
-        .first();
+    if (email) {
+      if (userId.email !== email) {
+        const emailExists = await knex("usuarios").where("email", email).first();
 
-      user_parser.nome_usuario = nome;
-      if (senha) {
-        if (repete_senha !== senha) {
-          return res.status(400).json({
-            message: "Para alterar a senha, as duas senhas têm que ser iguais",
-          });
-        } else {
-          const hashedPassword = await bcrypt.hash(senha, 10);
-          user_parser.senha = hashedPassword;
-        }
-      }
-
-      if (cpf) {
-        if (user_parser.cpf != cpf) {
-          const cpfExists = await knex("usuarios").where("cpf", cpf).first();
-          if (cpfExists) {
-            return res
-              .status(400)
-              .json({ message: "CPF já cadastrado para outro usuário!" });
-          }
-          if (String(cpf).length != 11) {
-            return res.status(400).json("CPF incorreto");
-          } else {
-            user_parser.cpf = cpf;
-          }
-        }
-      }
-
-      if (user_parser.email !== email) {
-        const emailExists = await knex("usuarios")
-          .where("email", email)
-          .first();
-        if (emailExists) {
+        if (emailExists && email !== userId.email) {
           return res
             .status(400)
-            .json({ message: "Email já cadastrado para outro usuário!" });
+            .json({ message: "Email já cadastrado!" });
+        } else if (emailExists && email === userId.email) {
+          return res.status(201).json({ message: 'E-mail do Usuario' })
         } else {
-          user_parser.email = email;
+          userId.email = email;
         }
       }
-
-      if (telefone) {
-        user_parser.telefone = telefone;
-      }
-
-      await knex("usuarios").where("id_usuario", id).update({
-        email: user_parser.email,
-        senha: user_parser.senha,
-        nome_usuario: user_parser.nome_usuario,
-        telefone: user_parser.telefone,
-        cpf: user_parser.cpf,
-      });
     }
 
-    const user = await knex("usuarios").where("id_usuario", id).first();
-    req.session.user = user;
-    return res.json(user);
-  } catch (error) {
-    return res
-      .status(400)
-      .json("Usuario sem sessao,redirecionar para pagina de login!");
-  }
-};
+    if (cpf) {
+      if (userId.cpf !== cpf) {
+        const cpfExists = await knex("usuarios").where("cpf", cpf).first();
 
-const showUser = async (req, res) => {
-  const { id } = req.headers;
-  // const id = 51
-  try {
-    const user = await knex("usuarios").where("id_usuario", id).first();
-    return res.status(200).json(user);
+        if (cpfExists && cpf !== userId.cpf) {
+          return res
+            .status(400)
+            .json({ message: "CPF já cadastrado para outro usuário!" });
+        } else if (cpfExists && cpf === userId.cpf) {
+          return res.status(201).json({ message: 'E-mail do Usuario' })
+        }
+        if (String(cpf).length != 11) {
+          return res.status(400).json("CPF incorreto");
+        } else {
+          userId.cpf = cpf;
+        }
+      }
+    }
+
+    if (telefone) {
+      userId.telefone = telefone;
+    }
+
+    if (toString(telefone).length < 7) {
+      return res.status(400).json({ message: 'Telefone inválido' })
+    }
+
+    if (senha) {
+      const user = await knex('usuarios').where('id_usuario', userId.id_usuario).first()
+
+      const verifyPassword = await bcrypt.compare(senha, user.senha)
+
+      if (verifyPassword) {
+        await knex('usuarios').update({ nome_usuario: nome, email, cpf, telefone }).where('id_usuario', userId.id_usuario)
+        return res.status(201).json({ message: 'Usuário atualizado com sucesso' })
+      }
+
+      const PasswordCrypt = await bcrypt.hash(senha, 10)
+      await knex('usuarios').update({ nome_usuario: nome, senha: PasswordCrypt, telefone }).where('id_usuario', userId.id_usuario)
+    }
+
+    return res.status(201).json({ message: 'Usuário atualizado com sucesso' })
+
   } catch (error) {
-    return res.status(400).json(error);
+
+    return res.status(512).json({ message: 'Erro interno do servidor' })
   }
-};
-module.exports = { updateUser, showUser };
+}
+module.exports = { updateUser };
