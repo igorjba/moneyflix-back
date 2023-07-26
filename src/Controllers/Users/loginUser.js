@@ -3,7 +3,7 @@ const session = require("express-session");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const passJWT = process.env.passJWT;
-
+let identificator = null;
 const loginUser = async (req, res) => {
   const { email, senha } = req.body;
 
@@ -19,14 +19,15 @@ const loginUser = async (req, res) => {
     if (!verifyPassword)
       return res.status(404).json({ message: "E-mail ou senha inválidos" });
 
-    const token = jwt.sign({ id: user.id }, passJWT, {
+    const token = jwt.sign({ id: user.id_usuario }, passJWT, {
       expiresIn: "8h",
     });
 
     const { senha: _, ...userLogged } = user;
+
     return res.json({
-      token,
       userLogged,
+      token,
     });
   } catch (error) {
     return res.status(500).json(error.message);

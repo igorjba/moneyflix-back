@@ -77,13 +77,14 @@ const updateUser = async (req, res) => {
       .json("Usuario sem sessao,redirecionar para pagina de login!");
   }
 };
+
 const showUser = async (req, res) => {
-  const { id } = req.body;
+  const id = 51;
   try {
     const user = await knex("usuarios").where("id_usuario", id).first();
     return res.status(200).json(user);
   } catch (error) {
-    return res.status(400).json("erro interno do servidor");
+    return res.status(400).json(error);
   }
 };
 module.exports = { updateUser, showUser };
