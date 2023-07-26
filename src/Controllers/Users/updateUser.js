@@ -2,9 +2,8 @@ const session = require("express-session");
 const knex = require("../../Config/database");
 
 const updateUser = async (req, res) => {
-  userId = req.session.user.id_usuario;
-
   try {
+    const userId = await req.session.user.id_usuario;
     const { nome, email, senha, repete_senha, cpf, telefone } = req.body;
     if (!nome || !email) {
       return res
@@ -79,14 +78,12 @@ const updateUser = async (req, res) => {
   }
 };
 const showUser = async (req, res) => {
-  userId = req.session.user.id_usuario;
+  const { id } = req.body;
   try {
-    const user = await knex("usuarios").where("id_usuario", userId).first();
+    const user = await knex("usuarios").where("id_usuario", id).first();
     return res.status(200).json(user);
   } catch (error) {
-    return res
-      .status(400)
-      .json("usuario sem sessao,redirecionar para pagina de login!");
+    return res.status(400).json("erro interno do servidor");
   }
 };
 module.exports = { updateUser, showUser };

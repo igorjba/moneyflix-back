@@ -23,8 +23,6 @@ const loginUser = async (req, res) => {
       expiresIn: "8h",
     });
 
-    req.session.user = user;
-    req.session.userToken = token;
     const { senha: _, ...userLogged } = user;
     return res.json({
       token,
