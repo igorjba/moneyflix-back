@@ -4,7 +4,7 @@ const { updateUser, showUser } = require("./Controllers/Users/updateUser");
 const deleteUser = require("./Controllers/Users/deleteUser");
 const { registerUser } = require("./Controllers/Users/registerUser");
 const { loginUser } = require("./Controllers/Users/loginUser");
-
+const logoutUser = require("./Controllers/Users/logoutUser");
 const registerNewClient = require("./Controllers/Client/registerClient");
 const detailClient = require("./Controllers/Client/detailsClient");
 const listClient = require("./Controllers/Client/listClient");
@@ -44,6 +44,7 @@ route.post("/login", validadeBody(SchemesLogin), loginUser);
 
 route.get("/usuario/listar", verifyToken, showUser);
 route.put("/usuario/atualizar", verifyToken, updateUser);
+route.post("/usuario/sair", verifyToken, logoutUser);
 route.delete("/usuario/deletar", verifyToken, deleteUser);
 
 route.post(
