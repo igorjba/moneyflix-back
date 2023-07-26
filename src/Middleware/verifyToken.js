@@ -1,17 +1,16 @@
 const jwt = require("jsonwebtoken");
 const passJWT = process.env.passJWT;
 const verifyToken = (req, res, next) => {
-  const { authorization } = req.headers;
-
-  if (!authorization) {
+  const token = req.session.userToken;
+  if (!token) {
     return res.status(401).json({ message: "Não autorizado" });
   }
-  token = authorization.split(" ")[1];
+
   try {
     const decodedToken = jwt.verify(token, passJWT);
 
     next();
-  } catch (err) {
+  } catch (error) {
     return res.status(401).json({ message: "Token inválido" });
   }
 };
