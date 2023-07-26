@@ -72,14 +72,16 @@ const updateUser = async (req, res) => {
     req.session.user = user;
     return res.json(user);
   } else {
-    return res.json("Usuario sem sessao,redirecionar para pagina de login!");
+    return res
+      .status(400)
+      .json("Usuario sem sessao,redirecionar para pagina de login!");
   }
 };
 const showUser = async (req, res) => {
   if (req.session.user) {
     userId = req.session.user.id_usuario;
     const user = await knex("usuarios").where("id_usuario", userId).first();
-    return res.json(user);
+    return res.status(400).json(user);
   } else {
     return res.json("usuario sem sessao,redirecionar para pagina de login!");
   }
