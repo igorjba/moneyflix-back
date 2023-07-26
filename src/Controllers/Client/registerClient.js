@@ -3,9 +3,9 @@ const knex = require('../../Config/database');
 
 const registerNewClient = async (req, res) => {
     const { nome, email, cpf, telefone, cep, logradouro, complemento, bairro, cidade, estado, status } = req.body;
-    const userId = req.user;
+    const { id_usuario } = req.user;
     let newClientData = {};
-console.log(userId)
+
     try {
         const checkemail = await knex('clientes').where({ email }).first();
 
