@@ -24,6 +24,7 @@ const loginUser = async (req, res) => {
     });
 
     req.session.user = user;
+
     const { senha: _, ...userLogged } = user;
     return res.json({
       token,
