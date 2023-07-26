@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 const passJWT = process.env.passJWT;
 const verifyToken = (req, res, next) => {
-  const token = req.session.userToken;
-  if (!token) {
+  const { Authorization } = req.headers;
+  if (!Authorization) {
     return res.status(401).json({ message: "Não autorizado" });
   }
-
+  const token = Authorization.split(" ")[1];
   try {
     const decodedToken = jwt.verify(token, passJWT);
 
