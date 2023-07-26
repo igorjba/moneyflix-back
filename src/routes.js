@@ -26,7 +26,7 @@ const {
   summaryOverdue,
   summaryPending,
   summaryPaid,
-} = require("./Controllers/Billing/list");
+} = require("./Controllers/Billing/listBillingController");
 
 
 const {
