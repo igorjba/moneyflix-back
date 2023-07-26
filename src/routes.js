@@ -39,9 +39,9 @@ route.get("/", (req, res) => {
 });
 
 route.post("/usuario", validadeBody(SchemesRegister), registerUser);
-// route.post('/login', validadeBody(SchemesLogin), loginUser)
+
 // route.put('/usuario',validadeBody(SchemesUpdate), UpdateUser)
-route.post("/login", loginUser);
+route.post("/login", validadeBody(SchemesLogin), loginUser);
 
 route.get("/user/show", verifyToken, showUser);
 route.put("/user/update", verifyToken, updateUser);
