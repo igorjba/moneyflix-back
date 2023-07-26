@@ -9,7 +9,6 @@ const verifyToken = (req, res, next) => {
   try {
     const token = authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, passJWT);
-
     next();
   } catch (error) {
     return res.status(401).json(error.message);

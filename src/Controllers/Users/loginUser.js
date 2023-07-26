@@ -22,6 +22,7 @@ const loginUser = async (req, res) => {
     const token = jwt.sign({ id: user.id_usuario }, passJWT, {
       expiresIn: "8h",
     });
+    console.log(token);
 
     const { senha: _, ...userLogged } = user;
 
