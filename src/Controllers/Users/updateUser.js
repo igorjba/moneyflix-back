@@ -1,12 +1,11 @@
 const session = require("express-session");
 const knex = require("../../Config/database");
 
-
 const updateUser = async (req, res) => {
-  const { userId } = req.headers;
+  const { id } = req.headers;
   try {
-    //const { userId } = req.headers;
-    // const userId = await req.session.user.id_usuario;
+    //const { id } = req.headers;
+    // const id = await req.session.user.id_usuario;
 
     const { nome, email, senha, repete_senha, cpf, telefone } = req.body;
     if (!nome || !email) {
@@ -15,7 +14,7 @@ const updateUser = async (req, res) => {
         .json({ message: "Os campos nome e email são obrigatórios!" });
     } else {
       const user_parser = await knex("usuarios")
-        .where("id_usuario", userId)
+        .where("id_usuario", id)
         .first();
 
       user_parser.nome_usuario = nome;
@@ -63,7 +62,7 @@ const updateUser = async (req, res) => {
         user_parser.telefone = telefone;
       }
 
-      await knex("usuarios").where("id_usuario", userId).update({
+      await knex("usuarios").where("id_usuario", id).update({
         email: user_parser.email,
         senha: user_parser.senha,
         nome_usuario: user_parser.nome_usuario,
@@ -72,7 +71,7 @@ const updateUser = async (req, res) => {
       });
     }
 
-    const user = await knex("usuarios").where("id_usuario", userId).first();
+    const user = await knex("usuarios").where("id_usuario", id).first();
     req.session.user = user;
     return res.json(user);
   } catch (error) {
@@ -83,10 +82,10 @@ const updateUser = async (req, res) => {
 };
 
 const showUser = async (req, res) => {
-  const { userId } = req.headers;
+  const { id } = req.headers;
   // const id = 51
   try {
-    const user = await knex("usuarios").where("id_usuario", userId).first();
+    const user = await knex("usuarios").where("id_usuario", id).first();
     return res.status(200).json(user);
   } catch (error) {
     return res.status(400).json(error);
