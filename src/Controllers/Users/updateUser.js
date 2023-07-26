@@ -1,9 +1,13 @@
 const session = require("express-session");
 const knex = require("../../Config/database");
 
+
 const updateUser = async (req, res) => {
+  const { userId } = req.headers;
   try {
-    const { userId } = req.headers;
+    //const { userId } = req.headers;
+    // const userId = await req.session.user.id_usuario;
+
     const { nome, email, senha, repete_senha, cpf, telefone } = req.body;
     if (!nome || !email) {
       return res
@@ -79,10 +83,10 @@ const updateUser = async (req, res) => {
 };
 
 const showUser = async (req, res) => {
-  const { id } = req.headers;
+  const { userId } = req.headers;
   // const id = 51
   try {
-    const user = await knex("usuarios").where("id_usuario", id).first();
+    const user = await knex("usuarios").where("id_usuario", userId).first();
     return res.status(200).json(user);
   } catch (error) {
     return res.status(400).json(error);
