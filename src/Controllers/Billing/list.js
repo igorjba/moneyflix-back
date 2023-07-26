@@ -114,5 +114,5 @@ module.exports = {
   filterStatusCharges,
   summaryOverdue,
   summaryPending,
-  summaryPaid,
+  summaryPaid
 };
