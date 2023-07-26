@@ -8,7 +8,8 @@ const verifyToken = (req, res, next) => {
   }
   try {
     const token = authorization.split(" ")[1];
-    const decodedToken = jwt.verify(token, passJWT);
+    const decoded = jwt.verify(token, passJWT);
+    req.user = decoded;
     next();
   } catch (error) {
     return res.status(500).json({ message: "Não autorizado" });
