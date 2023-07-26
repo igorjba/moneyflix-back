@@ -25,7 +25,7 @@ const registerCharges = async (req, res) => {
         if (!charges) {
             return res.status(400).json({ message: 'Cobrança não foi cadastrada' });
         }
-      
+
         if (charges[0].status === 'Pendente' && charges[0].vencimento < currentDate) {
             charges[0] = await knex('cobrancas')
                 .where('id_cobranca', charges[0].id_cobranca)
@@ -36,7 +36,7 @@ const registerCharges = async (req, res) => {
         return res.status(201).json({ message: 'Cobrança cadastrada com sucesso' })
 
     } catch (error) {
-        return res.status(500).json({ message: 'Erro interno do servidor' })
+        return res.status(501).json({ message: 'Erro interno do servidor' })
     }
 }
 
@@ -74,7 +74,7 @@ const updateCharges = async (req, res) => {
         return res.status(200).json({ message: 'Cobrança alterada com sucesso!' })
 
     } catch (error) {
-        return res.status(500).json({ message: 'Erro interno do servidor' })
+        return res.status(502).json({ message: 'Erro interno do servidor' })
     }
 }
 
@@ -137,7 +137,7 @@ const listCharges = async (req, res) => {
         return res.status(200).json(updateBilling)
 
     } catch (error) {
-        return res.status(400).json({ message: 'Erro interno do servidor' })
+        return res.status(503).json({ message: 'Erro interno do servidor' })
     }
 }
 
@@ -174,7 +174,7 @@ const deleteCharges = async (req, res) => {
 
 
     } catch (error) {
-        return res.status(400).json({ message: 'Erro interno do servidor' })
+        return res.status(504).json({ message: 'Erro interno do servidor' })
     }
 
 }

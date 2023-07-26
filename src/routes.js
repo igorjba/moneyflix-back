@@ -1,10 +1,15 @@
 const express = require("express");
-const { verifyToken } = require("./Middleware/verifyToken");
-const { updateUser, showUser } = require("./Controllers/Users/updateUser");
-const deleteUser = require("./Controllers/Users/deleteUser");
-const { registerUser } = require("./Controllers/Users/registerUser");
-const { loginUser } = require("./Controllers/Users/loginUser");
-const logoutUser = require("./Controllers/Users/logoutUser");
+
+const validadeBody = require("./Middleware/authorization");
+
+const verifyLogin = require("./Middleware/verifyLogin");
+
+const email = require('./Controllers/Users/email')
+const { loginUser } = require('./Controllers/Users/loginUser')
+const profile = require('./Controllers/Users/profile')
+const { registerUser } = require('./Controllers/Users/registerUser')
+const { updateUser } = require('./Controllers/Users/updateUser')
+
 const registerNewClient = require("./Controllers/Client/registerClient");
 const detailClient = require("./Controllers/Client/detailsClient");
 const listClient = require("./Controllers/Client/listClient");
@@ -21,15 +26,15 @@ const {
   summaryOverdue,
   summaryPending,
   summaryPaid,
-} = require("./Controllers/Billing/list");
+} = require("./Controllers/Billing/listBillingController");
 
-const validadeBody = require("./Middleware/authorization");
+
 const {
   SchemesRegister,
   SchemesLogin,
   SchemesCharges,
   SchemesNewClients,
-  SchemesUpdateClient,
+  SchemesUpdateClient
 } = require("./Schemes/index");
 
 const route = express();
@@ -38,14 +43,12 @@ route.get("/", (req, res) => {
   return res.status(200).send("ok");
 });
 
+route.get('/usuario/:email', email)
 route.post("/usuario", validadeBody(SchemesRegister), registerUser);
-
 route.post("/login", validadeBody(SchemesLogin), loginUser);
 
-route.get("/usuario/listar", verifyToken, showUser);
-route.put("/usuario/atualizar", verifyToken, updateUser);
-route.post("/usuario/sair", verifyToken, logoutUser);
-route.delete("/usuario/deletar", deleteUser);
+route.get("/usuario", verifyLogin, profile);
+route.put("/usuario/atualizar", verifyLogin, updateUser);
 
 route.post(
   "/cobranca/cadastro/:id",

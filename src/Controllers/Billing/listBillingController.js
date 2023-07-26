@@ -22,7 +22,7 @@ const filterStatusCharges = async (req, res) => {
 
     return res.status(200).json(summaryCharges);
   } catch (error) {
-    return res.status(400).json({ message: "Erro interno do servidor" });
+    return res.status(505).json({ message: "Erro interno do servidor" });
   }
 };
 
@@ -50,7 +50,7 @@ const summaryOverdue = async (req, res) => {
 
     return res.status(200).json(totalOverdue);
   } catch (error) {
-    return res.status(400).json({ message: "Erro interno do servidor" });
+    return res.status(506).json({ message: "Erro interno do servidor" });
   }
 };
 
@@ -78,7 +78,7 @@ const summaryPending = async (req, res) => {
 
     return res.status(200).json(totalPending);
   } catch (error) {
-    return res.status(400).json({ message: "Erro interno do servidor" });
+    return res.status(507).json({ message: "Erro interno do servidor" });
   }
 };
 
@@ -106,7 +106,7 @@ const summaryPaid = async (req, res) => {
 
     return res.status(200).json(totalPaid);
   } catch (error) {
-    return res.status(400).json({ message: "Erro interno do servidor" });
+    return res.status(508).json({ message: "Erro interno do servidor" });
   }
 };
 
