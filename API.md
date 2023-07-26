@@ -84,16 +84,47 @@ Essa é a rota que permite o usuario cadastrado realizar o login no sistema.
 
 ---
 
+### **Listar Usuario**
+
+#### `GET` `/usuario/listar
+
+Essa é a rota que permite o usuario liste as informacoes.
+
+// GET /usuario/listar
+
+#### **Exemplo de requisição**
+
+{
+// nada no corpo da requisicao
+}
+
+#### **Exemplos de resposta**
+
+//sucess (listou usuario)
+{
+"id_usuario": 50,
+"nome_usuario": "camila borges",
+"email": "shdga@gmail.com",
+"senha": "$2b$10$GqxtE1nvqOf1S50q8ujKEOVcXaViWGi2LUvJrB9JGcvAXLVqU/4qa",
+"cpf": null,
+"telefone": null
+}
+
+//error
+{
+usuario sem sessao,redirecionar para pagina de login!
+}
+
 ### **Atualizar Usuario**
 
-#### `PUT` `/user/update`
+#### `PUT` `/usuario/atualizar
 
 Essa é a rota que permite o usuario cadastrado atualizar informações do próprio usuário.
 
 #### **Exemplo de requisição**
 
 ```javascript
-// PUT /user/update
+// PUT /usuario/atualizar
 {
     "email": "isamara123@email.com"
 }
@@ -102,7 +133,7 @@ Essa é a rota que permite o usuario cadastrado atualizar informações do próp
 OU (qualquer outro campo)
 
 ```javascript
-// PUT /user/update
+// PUT /usuario/atualizar
 {
     "nome": Isamara Pereira"
 }
