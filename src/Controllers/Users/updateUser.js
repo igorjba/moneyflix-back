@@ -3,7 +3,7 @@ const knex = require("../../Config/database");
 
 const updateUser = async (req, res) => {
   try {
-    const userId = await req.session.user.id_usuario;
+    const { userId } = req.headers;
     const { nome, email, senha, repete_senha, cpf, telefone } = req.body;
     if (!nome || !email) {
       return res
