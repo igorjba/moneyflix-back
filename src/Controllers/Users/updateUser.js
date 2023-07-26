@@ -4,7 +4,7 @@ const knex = require("../../Config/database");
 const updateUser = async (req, res) => {
   userId = req.session.user.id_usuario;
 
-  if (userId) {
+  try {
     const { nome, email, senha, repete_senha, cpf, telefone } = req.body;
     if (!nome || !email) {
       return res
@@ -72,7 +72,7 @@ const updateUser = async (req, res) => {
     const user = await knex("usuarios").where("id_usuario", userId).first();
     req.session.user = user;
     return res.json(user);
-  } else {
+  } catch (error) {
     return res
       .status(400)
       .json("Usuario sem sessao,redirecionar para pagina de login!");
