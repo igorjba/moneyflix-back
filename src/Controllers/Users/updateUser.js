@@ -78,9 +78,9 @@ const updateUser = async (req, res) => {
   }
 };
 const showUser = async (req, res) => {
+  const { id } = req.body;
   try {
-    const userId = await req.session.user.id_usuario;
-    const user = await knex("usuarios").where("id_usuario", userId).first();
+    const user = await knex("usuarios").where("id_usuario", id).first();
     return res.status(200).json(user);
   } catch (error) {
     return res.status(400).json("erro interno do servidor");
