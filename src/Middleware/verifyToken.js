@@ -10,7 +10,7 @@ const verifyToken = (req, res, next) => {
   try {
     const decodedToken = jwt.verify(token, passJWT);
 
-    req.userId = decodedToken.id;
+    req.session.userToken = token;
 
     next();
   } catch (err) {

@@ -1,6 +1,7 @@
 const express = require("express");
 const { verifyToken } = require("./Middleware/verifyToken");
 const { updateUser, showUser } = require("./Controllers/Users/updateUser");
+const deleteUser = require("./Controllers/Users/deleteUser");
 const { registerUser } = require("./Controllers/Users/registerUser");
 const { loginUser } = require("./Controllers/Users/loginUser");
 
@@ -39,11 +40,11 @@ route.get("/", (req, res) => {
 
 route.post("/usuario", validadeBody(SchemesRegister), registerUser);
 
-// route.put('/usuario',validadeBody(SchemesUpdate), UpdateUser)
 route.post("/login", validadeBody(SchemesLogin), loginUser);
 
-route.get("/user/show", verifyToken, showUser);
-route.put("/user/update", verifyToken, updateUser);
+route.get("/usuario/listar", verifyToken, showUser);
+route.put("/usuario/atualizar", verifyToken, updateUser);
+route.delete("/usuario/deletar", verifyToken, deleteUser);
 
 route.post(
   "/cobranca/cadastro/:id",
@@ -59,9 +60,9 @@ route.get("/cobranca/vencidas", summaryOverdue);
 route.get("/cobranca/pendentes", summaryPending);
 route.get("/cobranca/pagas", summaryPaid);
 
-route.get("/client", listClient);
-route.get("/client/:id", detailClient);
-route.post("/client", validadeBody(SchemesNewClients), registerNewClient);
-route.post("/client/:id", validadeBody(SchemesUpdateClient), updateClient);
+route.get("/cliente", listClient);
+route.get("/cliente/:id", detailClient);
+route.post("/cliente", validadeBody(SchemesNewClients), registerNewClient);
+route.post("/cliente/:id", validadeBody(SchemesUpdateClient), updateClient);
 
 module.exports = route;

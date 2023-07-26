@@ -70,6 +70,7 @@ Essa é a rota que permite o usuario cadastrado realizar o login no sistema.
 { message: "E-mail ou senha inválidos" }
 }
 
+
 //sucess
 {
     "usuario": {
@@ -117,6 +118,18 @@ OU (qualquer outro campo)
 
 {
 {message: "Para alterar a senha, as duas senhas têm que ser iguais"}
+}
+
+{
+{message: "CPF já cadastrado para outro usuário!"}
+}
+
+{
+{message: "Email já cadastrado para outro usuário!"}
+}
+
+{
+{message: "Usuario sem sessao,redirecionar para pagina de login!"}
 }
 
 //sucess (usuario atualizado)
