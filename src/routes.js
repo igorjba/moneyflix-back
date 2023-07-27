@@ -64,7 +64,7 @@ route.get("/cobranca/vencidas", summaryOverdue);
 route.get("/cobranca/pendentes", summaryPending);
 route.get("/cobranca/pagas", summaryPaid);
 
-route.get("/cliente", listClient);
+route.get("/cliente", verifyLogin, listClient);
 route.get("/cliente/:id", detailClient);
 route.post("/cliente", validadeBody(SchemesNewClients), registerNewClient);
 route.post("/cliente/:id", validadeBody(SchemesUpdateClient), updateClient);
