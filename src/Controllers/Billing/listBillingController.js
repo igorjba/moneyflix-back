@@ -110,9 +110,53 @@ const summaryPaid = async (req, res) => {
   }
 };
 
+const summaryInDay = async (req, res) => {
+  try {
+
+    const clientInDay = await knex('clientes').select('clientes.id_cliente', 'clientes.nome_cliente as cliente', 'clientes.cpf')
+      .where('clientes.status', 'Em dia')
+      .orderBy('id_cliente', 'desc')
+      .limit(4)
+
+    const amountInday = await knex('clientes').where('status', 'Em dia').count('id_cliente')
+
+    const returnInday = {
+      clientInDay, total: amountInday[0].count
+    }
+
+    return res.status(200).json(returnInday)
+
+  } catch (error) {
+    return res.status(515).json({ message: "Erro interno do servidor" });
+  }
+}
+
+const summaryDefaulters = async (req, res) => {
+  try {
+
+    const clientDefaulters = await knex('clientes').select('clientes.id_cliente', 'clientes.nome_cliente as cliente', 'clientes.cpf')
+      .where('clientes.status', 'Inadimplente')
+      .orderBy('id_cliente', 'desc')
+      .limit(4)
+
+    const amountDefaulters = await knex('clientes').where('status', 'Inadimplente').count('id_cliente')
+
+    const returnDefaulters = {
+      clientDefaulters, total: amountDefaulters[0].count
+    }
+
+    return res.status(200).json(returnDefaulters)
+
+  } catch (error) {
+    return res.status(515).json({ message: "Erro interno do servidor" });
+  }
+}
+
 module.exports = {
   filterStatusCharges,
   summaryOverdue,
   summaryPending,
-  summaryPaid
+  summaryPaid,
+  summaryInDay,
+  summaryDefaulters
 };

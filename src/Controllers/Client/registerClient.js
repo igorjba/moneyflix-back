@@ -1,10 +1,11 @@
 const knex = require('../../Config/database');
 
-
 const registerNewClient = async (req, res) => {
     const { nome, email, cpf, telefone, cep, logradouro, complemento, bairro, cidade, estado, status } = req.body;
-    const { id_usuario } = req.user;
+    const userLogged = req.user;
     let newClientData = {};
+
+    id_usuario = userLogged.id_usuario
 
     try {
         const checkemail = await knex('clientes').where({ email }).first();
@@ -27,34 +28,34 @@ const registerNewClient = async (req, res) => {
         }
 
         if (cep) {
-            newClientData = {...newClientData, cep};
+            newClientData = { ...newClientData, cep };
         }
         if (logradouro) {
-            newClientData = {...newClientData, endereco: logradouro};
+            newClientData = { ...newClientData, endereco: logradouro };
         }
         if (complemento) {
-            newClientData = {...newClientData, complemento};
+            newClientData = { ...newClientData, complemento };
         }
         if (bairro) {
-            newClientData = {...newClientData, bairro};
+            newClientData = { ...newClientData, bairro };
         }
         if (cidade) {
-            newClientData = {...newClientData, cidade};
+            newClientData = { ...newClientData, cidade };
         }
         if (estado) {
-            newClientData = {...newClientData, estado};
+            newClientData = { ...newClientData, estado };
         }
         if (status) {
-            newClientData = {...newClientData, status}
+            newClientData = { ...newClientData, status }
         }
 
-        const addClient = await knex('clientes').insert(newClientData).first();
+        const addClient = await knex('clientes').insert(newClientData).returning('*');
 
-        if(!addClient){
-            return res.status(400).json({message: "Não foi possivel adicionar o cliente!"})
+        if (addClient.length === 0) {
+            return res.status(400).json({ message: "Não foi possivel adicionar o cliente!" })
         }
 
-        return res.status(201).json({message: "Cliente adicionado com sucesso!"});
+        return res.status(201).json({ message: "Cliente adicionado com sucesso!" });
 
     } catch (error) {
         console.log(error)

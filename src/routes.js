@@ -26,6 +26,8 @@ const {
   summaryOverdue,
   summaryPending,
   summaryPaid,
+  summaryInDay,
+  summaryDefaulters,
 } = require("./Controllers/Billing/listBillingController");
 
 
@@ -50,23 +52,21 @@ route.post("/login", validadeBody(SchemesLogin), loginUser);
 route.get("/usuario", verifyLogin, profile);
 route.put("/usuario/atualizar", verifyLogin, updateUser);
 
-route.post(
-  "/cobranca/cadastro/:id",
-  validadeBody(SchemesCharges),
-  registerCharges
-);
+route.post("/cobranca/cadastro/:id", validadeBody(SchemesCharges), registerCharges);
 route.put("/cobranca/editar/:id", validadeBody(SchemesCharges), updateCharges);
 route.get("/cobranca", listCharges);
 route.delete("/cobranca/delete/:id", deleteCharges);
 
-route.get("/cobranca/total", filterStatusCharges);
-route.get("/cobranca/vencidas", summaryOverdue);
-route.get("/cobranca/pendentes", summaryPending);
-route.get("/cobranca/pagas", summaryPaid);
+route.get("/cobranca/total", verifyLogin, filterStatusCharges);
+route.get("/cobranca/vencidas", verifyLogin, summaryOverdue);
+route.get("/cobranca/pendentes", verifyLogin, summaryPending);
+route.get("/cobranca/pagas", verifyLogin, summaryPaid);
+route.get("/cobranca/emdia", verifyLogin, summaryInDay);
+route.get("/cobranca/inadimplentes", verifyLogin, summaryDefaulters);
 
 route.get("/cliente", verifyLogin, listClient);
 route.get("/cliente/:id", detailClient);
-route.post("/cliente", validadeBody(SchemesNewClients), registerNewClient);
+route.post("/cliente", verifyLogin, validadeBody(SchemesNewClients), registerNewClient);
 route.post("/cliente/:id", validadeBody(SchemesUpdateClient), updateClient);
 
 module.exports = route;
