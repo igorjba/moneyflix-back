@@ -56,7 +56,7 @@ Essa é a rota que será utilizada para cadastrar um novo usuario no sistema.
 //sucess
 {
   {
-    messageSucess: "Cadastro realizado com sucesso";
+    message: "Cadastro realizado com sucesso";
   }
 }
 ```
@@ -75,7 +75,7 @@ Essa é a rota que permite o usuario cadastrado realizar o login no sistema.
 // POST /login
 {
     "email":"pedroteste@email.com",
-	"senha":"141412"
+    "senha":"141412"
 }
 ```
 
@@ -130,11 +130,6 @@ Essa é a rota que permite o usuario liste as informações do usuário.
 #### **Exemplos de resposta**
 
 ```javascript
-//error
-{
-   message: "Usuário não encontrado"
-}
-
 //sucess
 {
    "id_usuario": 50,
@@ -149,6 +144,8 @@ Essa é a rota que permite o usuario liste as informações do usuário.
 
 <details>
 <summary><b>Atualizar Usuário</b></summary>
+
+#### `PUT` `/usuario/atualizar`
 
 Essa rota permite que o usuário atualize qualquer campo.
 
@@ -220,10 +217,178 @@ OU (qualquer outro campo)
 ### **Cobranças**
 
 <details>
-<summary><b>Cadastrar Cobranças</b></summary>
+<summary><b>Cadastrar Cobrança</b></summary>
 
 #### `POST` `/cobranca/cadastro/:id`
 
 Essa é a rota que permite que uma cobrança seja cadastrada.
 
 #### **Exemplo de requisição**
+
+```javascript
+// POST /cobranca/cadastro/:id
+{
+   "descricao": "notebook",
+   "valor": 3000,
+   "vencimento": "20/09/2023",
+   "status": "Em dia"
+}
+//header
+{
+  authorization: "Bearer 
+  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTEsImlhdCI6MTY5MDM5NjU4MCwiZXhwIjoxNjkwNDI1MzgwfQ.VXkavI1cMazLya4cGZIlALS7WeCvD019QnQcFCd19W4"
+}
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//erros de campo
+{
+  { message: "Este campo deve ser preenchido" }
+}
+
+//error
+{
+  { message: 'Cliente não encontrado' }
+}
+{
+  { message: 'Cobrança não foi cadastrada' }
+}
+//sucess
+{
+  { message: 'Cobrança cadastrada com sucesso' }
+}
+```
+</details>
+
+<details>
+<summary><b>Editar Cobrança</b></summary>
+
+#### `PUT` `/cobranca/editar/:id`
+
+Essa é a rota que permite que uma cobrança seja editada.
+
+#### **Exemplo de requisição**
+
+```javascript
+// PUT /cobranca/editar/:id
+{
+ { "descricao": "notebook samsung" }
+}
+//header
+{
+  authorization: "Bearer 
+  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTEsImlhdCI6MTY5MDM5NjU4MCwiZXhwIjoxNjkwNDI1MzgwfQ.VXkavI1cMazLya4cGZIlALS7WeCvD019QnQcFCd19W4"
+}
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+  { message: 'Cobrança não cadastrada' }
+}
+{
+  { message: 'Cobrança não foi alterada' }
+}
+//sucess
+{
+  { message: 'Cobrança alterada com sucesso!' }
+}
+```
+</details>
+
+<details>
+<summary><b>Listar Cobrança</b></summary>
+
+#### `GET` `/cobranca`
+
+Essa é a rota que permite listar todas as cobranças.
+
+#### **Exemplo de requisição**
+
+```javascript
+// GET /cobranca
+//header
+{
+  authorization: "Bearer 
+  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTEsImlhdCI6MTY5MDM5NjU4MCwiZXhwIjoxNjkwNDI1MzgwfQ.VXkavI1cMazLya4cGZIlALS7WeCvD019QnQcFCd19W4"
+}
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+//sucess
+```
+</details>
+
+<details>
+<summary><b>Deletar Cobrança</b></summary>
+
+#### `DELETE` `/cobranca/:id`
+
+Essa é a rota que permite deletar uma cobrança.
+
+#### **Exemplo de requisição**
+
+```javascript
+// DELETE /cobranca/:id
+//header
+{
+  authorization: "Bearer 
+  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTEsImlhdCI6MTY5MDM5NjU4MCwiZXhwIjoxNjkwNDI1MzgwfQ.VXkavI1cMazLya4cGZIlALS7WeCvD019QnQcFCd19W4"
+}
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+  { message: 'Cobrança não existe' }
+}
+{
+  { message: 'Cobrança vencida não poderá ser excluída' }
+}
+{
+  { message: 'Cobrança paga não pode ser excluída' }
+}
+{
+  { message: 'Esta cobrança não pode ser excluida' }
+}
+//sucess
+{
+  { message: 'Cobrança excluída com sucesso!' }
+}
+```
+</details>
+
+---
+
+ ### **Clientes**
+
+<details>
+<summary><b>Cadastrar Cliente</b></summary>
+
+#### `POST` `/cliente`
+
+Essa é a rota que permite que cadastre um cliente.
+
+#### **Exemplo de requisição**
+
+```javascript
+// POST /cliente
+
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+//sucess
+```
+</details>
