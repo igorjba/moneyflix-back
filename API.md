@@ -30,16 +30,33 @@ Essa é a rota que será utilizada para cadastrar um novo usuario no sistema.
 #### **Exemplos de resposta**
 
 ```javascript
-//error
+//erros de campos
 {
   {
-    message: "E-email já cadastrado";
+    message: "O campo nome é obrigatório";
+  }
+ {
+    message: "O campo e-mail é obrigatório";
+  }
+ {
+    message: "E-mail inválido";
+  }
+ {
+    message: "O campo senha é obrigatório";
   }
 }
+
+//error
+{
+ {
+    message: "E-mail já cadastrado"
+ {
+}
+
 //sucess
 {
   {
-    message: "Cadastro realizado com sucesso";
+    messageSucess: "Cadastro realizado com sucesso";
   }
 }
 ```
@@ -57,28 +74,44 @@ Essa é a rota que permite o usuario cadastrado realizar o login no sistema.
 ```javascript
 // POST /login
 {
-    "email": "isamara@email.com",
-    "senha": "123456"
+    "email":"pedroteste@email.com",
+	"senha":"141412"
 }
 ```
 
 #### **Exemplos de resposta**
 
 ```javascript
-//error
+//erros de campo
 {
-{ message: "E-mail ou senha inválidos" }
+ {
+    message: "O campo e-mail é obrigatório";
+  }
+ {
+    message: "E-mail inválido";
+  }
+ {
+    message: "O campo senha é obrigatório";
+  }
 }
 
+//error 
+{
+   { message: "E-mail ou senha inválidos" }
+}
 
 //sucess
 {
-    "usuario": {
-        "id": 1,
-        "nome": "Isamara",
-        "email": "isamara@email.com"
-    },
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjIzMjQ5NjIxLCJleHAiOjE2MjMyNzg0MjF9.KLR9t7m_JQJfpuRv9_8H2-XJ92TSjKhGPxJXVfX6wBI"
+    "user":
+    {
+		"id_usuario": 65,
+		"nome_usuario": "pedro teste",
+		"email": "pedroteste@email.com",
+		"cpf": "12345678095",
+		"telefone": null
+	},
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjUsImlhdCI6MTY5MDQ2NzQ4MSwiZXhwIjoxNjkwNDk2MjgxfQ.dvPdf3Q8UcRzLP0kbP7EExMJXFeIdAc-GNhafWU3yhk"
+}
 }
 ```
 
@@ -86,91 +119,98 @@ Essa é a rota que permite o usuario cadastrado realizar o login no sistema.
 
 ### **Listar Usuario**
 
-#### `GET` `/usuario/listar
+#### `GET` `/usuario`
 
-Essa é a rota que permite o usuario liste as informacoes.
+Essa é a rota que permite o usuario liste as informações do usuário.
 
-// GET /usuario/listar
-
-#### **Exemplo de requisição**
-
-{
-// nada no corpo da requisicao
-}
+```javascript
+// GET /usuario
+```
 
 #### **Exemplos de resposta**
 
-//sucess (listou usuario)
-{
-"id_usuario": 50,
-"nome_usuario": "camila borges",
-"email": "shdga@gmail.com",
-"senha": "$2b$10$GqxtE1nvqOf1S50q8ujKEOVcXaViWGi2LUvJrB9JGcvAXLVqU/4qa",
-"cpf": null,
-"telefone": null
-}
-
+```javascript
 //error
 {
-usuario sem sessao,redirecionar para pagina de login!
+   message: "Usuário não encontrado"
 }
+
+//sucess
+{
+   "id_usuario": 50,
+   "nome_usuario": "camila borges",
+   "email": "shdga@gmail.com",
+   "senha": "$2b$10$GqxtE1nvqOf1S50q8ujKEOVcXaViWGi2LUvJrB9JGcvAXLVqU/4qa",
+   "cpf": null,
+   "telefone": null
+}
+```
 
 ### **Atualizar Usuario**
 
-#### `PUT` `/usuario/atualizar
+#### `PUT` `/usuario/atualizar`
 
-Essa é a rota que permite o usuario cadastrado atualizar informações do próprio usuário.
+Essa rota permite que o usuário atualize qualquer campo.
 
 #### **Exemplo de requisição**
 
 ```javascript
 // PUT /usuario/atualizar
 {
-    "email": "isamara123@email.com"
+    "email": "xa@email.com"
+}
+//header
+{
+  authorization: "Bearer 
+  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTEsImlhdCI6MTY5MDM5NjU4MCwiZXhwIjoxNjkwNDI1MzgwfQ.VXkavI1cMazLya4cGZIlALS7WeCvD019QnQcFCd19W4"
 }
 ```
-
 OU (qualquer outro campo)
 
 ```javascript
 // PUT /usuario/atualizar
 {
-    "nome": Isamara Pereira"
+    "nome":"camila bors"
+}
+//header
+{
+  authorization: "Bearer 
+  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTEsImlhdCI6MTY5MDM5NjU4MCwiZXhwIjoxNjkwNDI1MzgwfQ.VXkavI1cMazLya4cGZIlALS7WeCvD019QnQcFCd19W4"
 }
 ```
 
 #### **Exemplos de resposta**
 
 ```javascript
-//error
+//error 
 {
-{ message: "Os campos nome e email são obrigatórios!" }
+  { message: "E-mail já cadastrado" }
 }
 
 {
-{message: "Para alterar a senha, as duas senhas têm que ser iguais"}
+   { message: "E-mail do usuário" }
 }
 
 {
-{message: "CPF já cadastrado para outro usuário!"}
+   { message: "CPF já cadastrado para outro usuário!" }
 }
 
 {
-{message: "Email já cadastrado para outro usuário!"}
+   { message: "CPF incorreto" }
 }
 
 {
-{message: "Usuario sem sessao,redirecionar para pagina de login!"}
+   { message: "CPF do usuário" }
 }
+
+{
+   { message: 'Telefone inválido' }
+}
+
 
 //sucess (usuario atualizado)
 {
-    "id_usuario": 30,
-    "nome_usuario": "Isamara Peireira",
-    "email": "isamara123@email.com",
-    "senha": "$2b$10$lhwVc5uqq226psPiViVzneFzkYIhBTsLLWVj7SF72H5e43u7g.GNO",
-    "cpf": "41241242549",
-    "telefone": "1699999999 "
+   { message: 'Usuário atualizado com sucesso' }
 }
 ```
 
