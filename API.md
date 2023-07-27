@@ -440,7 +440,7 @@ Essa é a rota que permite que cadastre um cliente.
   { message: "Cliente adicionado com sucesso!" }
 }
 ```
-<details/>
+</details>
 
 <details>
 <summary><b>Editar Cliente</b></summary>
@@ -465,7 +465,7 @@ Essa é a rota que permite que atualize o clinte.
 //sucess
 ```
 
-<details/>
+</details>
 	
 <details>
 <summary><b>Detalhar Cliente</b></summary>
@@ -505,7 +505,7 @@ Essa é a rota que permite que cadastre um cliente.
   "status": "Em dia"
 }
 ```
-<details/>
+</details>
 
 <details>
 <summary><b>Listar Cliente</b></summary>
