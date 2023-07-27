@@ -14,6 +14,7 @@ const registerNewClient = require("./Controllers/Client/registerClient");
 const detailClient = require("./Controllers/Client/detailsClient");
 const listClient = require("./Controllers/Client/listClient");
 const updateClient = require("./Controllers/Client/updateClient");
+const listBillingTotal = require("./Controllers/Billing/listBillingTotal");
 
 const {
   registerCharges,
@@ -45,6 +46,7 @@ route.get("/", (req, res) => {
   return res.status(200).send("ok");
 });
 
+route.get("/usario/painel", verifyLogin, listBillingTotal);
 route.get('/usuario/:email', email)
 route.post("/usuario", validadeBody(SchemesRegister), registerUser);
 route.post("/login", validadeBody(SchemesLogin), loginUser);
