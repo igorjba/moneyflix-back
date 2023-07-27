@@ -382,6 +382,142 @@ Essa é a rota que permite que cadastre um cliente.
 
 ```javascript
 // POST /cliente
+{
+  "nome": "BKing",
+  "email": "ryander@b4k.com.br",
+  "cpf": 12345678990,
+  "telefone": 999999999
+  "cep": 11111222
+ "status": "Em dia"
+}
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//erros de campo
+{
+  { message: "Nome deve ser preenchido" }
+}
+{
+  { message: "Nome é obrigatório" }
+}
+{
+  { message: "E-mail deve ser preenchido" }
+}
+{
+  { message: "E-mail é obrigatório" }
+}
+{
+  { message: "E-mail inválido" }
+}
+{
+  { message: "CPF deve ser preenchido" }
+}
+{
+  { message: "CPF é obrigatório" }
+}
+{
+  { message: "Telefone deve ser preenchido" }
+}
+{
+  { message: "Telefone é obrigatório" }
+}
+{
+  { message: "Informe um cep válido" }
+}
+{
+  { message: "E-email já cadastrado!" }
+}
+{
+  { message: "CPF já cadastrado!" }
+}
+{
+  { message: "Não foi possivel adicionar o cliente!" }
+}
+//sucess
+{
+  { message: "Cliente adicionado com sucesso!" }
+}
+```
+<details/>
+
+<details>
+<summary><b>Editar Cliente</b></summary>
+
+#### `PUT` `/cliente/:id`
+
+Essa é a rota que permite que atualize o clinte.
+
+#### **Exemplo de requisição**
+
+```javascript
+// PUT /cliente/:id
+{
+
+}
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+//sucess
+```
+
+<details/>
+	
+<details>
+<summary><b>Detalhar Cliente</b></summary>
+
+#### `POST` `/cliente/:id`
+
+Essa é a rota que permite que cadastre um cliente.
+
+#### **Exemplo de requisição**
+
+```javascript
+// POST /cliente/:id
+
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+  { message: "Cliente não encontrado!" }
+}
+//sucess
+{
+  "id_client": 1,
+  "id_usuario": 1,
+  "nome_cliente": "ryander",
+  "email": "joaosilva@email.com",
+  "cpf": 12345678901
+  "telefone": 11987654321,
+  "cep": 05428200,
+  "endereco": "Rua Amor Perfeito, 123",
+  "complemento": "Apto 202", 
+  "bairro": "ViLa Mariana",
+  "cidade": "São Paulo",
+  "estado": "SP",
+  "status": "Em dia"
+}
+```
+<details/>
+
+<details>
+<summary><b>Listar Cliente</b></summary>
+
+#### `GET` `/cliente/:id`
+
+Essa é a rota que permite.
+
+#### **Exemplo de requisição**
+
+```javascript
+// GET /cliente/:id
 
 ```
 
@@ -391,4 +527,5 @@ Essa é a rota que permite que cadastre um cliente.
 //error
 //sucess
 ```
+
 </details>
