@@ -49,6 +49,7 @@ const listBillingTotal = async (req, res) => {
     totalValorPagas: totalValuePaid,
   };
   return res.status(200).json(summaryTotal);
+  //trycatch
 };
 
 module.exports = listBillingTotal;
