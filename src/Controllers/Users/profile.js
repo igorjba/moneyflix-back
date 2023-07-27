@@ -1,9 +1,7 @@
-
 const knex = require('../../Config/database')
 const profile = async (req, res) => {
   const user = req.user
   const userId = user.id_usuario
-
 
   try {
 

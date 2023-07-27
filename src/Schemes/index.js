@@ -33,7 +33,6 @@ const SchemesLogin = joi.object({
   })
 })
 
-
 const SchemesCharges = joi.object({
   descricao: joi.string().required().messages({
     "any.required": "Este campo deve ser preenchido",

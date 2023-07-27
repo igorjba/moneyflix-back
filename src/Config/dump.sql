@@ -30,7 +30,7 @@ CREATE TABLE clientes (
     status TEXT DEFAULT 'Em dia'
 );
 
- update clientes from id_cliente set status = 'Inadimplentes';
+ update clientes from id_cliente set status = 'Inadimplente';
 
 
 
