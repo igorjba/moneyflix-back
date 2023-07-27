@@ -8,9 +8,9 @@ https://lazy-rose-moth-tam.cyclic.app/
 
 ## **Endpoints**
 
----
-
-### **Cadastrar usuário**
+### **Usuários**
+<details>
+<summary><b>Cadastrar usuário</b></summary>
 
 #### `POST` `/usuario`
 
@@ -60,10 +60,10 @@ Essa é a rota que será utilizada para cadastrar um novo usuario no sistema.
   }
 }
 ```
+</details>
 
----
-
-### **Login do usuário**
+<details>
+<summary><b>Login do usuário</b></summary>
 
 #### `POST` `/login`
 
@@ -114,10 +114,10 @@ Essa é a rota que permite o usuario cadastrado realizar o login no sistema.
 }
 }
 ```
+</details>
 
----
-
-### **Listar Usuario**
+<details>
+<summary><b>Listar usuário</b></summary>
 
 #### `GET` `/usuario`
 
@@ -145,10 +145,10 @@ Essa é a rota que permite o usuario liste as informações do usuário.
    "telefone": null
 }
 ```
+</details>
 
-### **Atualizar Usuario**
-
-#### `PUT` `/usuario/atualizar`
+<details>
+<summary><b>Atualizar Usuário</b></summary>
 
 Essa rota permite que o usuário atualize qualquer campo.
 
@@ -213,10 +213,14 @@ OU (qualquer outro campo)
    { message: 'Usuário atualizado com sucesso' }
 }
 ```
+</details>
 
 ---
 
-### **COBRANÇAS**
+### **Cobranças**
+
+<details>
+<summary><b>Cadastrar Cobranças</b></summary>
 
 #### `POST` `/cobranca/cadastro/:id`
 
