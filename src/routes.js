@@ -46,7 +46,7 @@ route.get("/", (req, res) => {
   return res.status(200).send("ok");
 });
 
-route.get("/usario/painel", verifyLogin, listBillingTotal);
+route.get("/usuario/painel", verifyLogin, listBillingTotal);
 route.get('/usuario/:email', email)
 route.post("/usuario", validadeBody(SchemesRegister), registerUser);
 route.post("/login", validadeBody(SchemesLogin), loginUser);
