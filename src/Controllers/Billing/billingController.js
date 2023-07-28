@@ -178,7 +178,28 @@ const deleteCharges = async (req, res) => {
     }
 
 }
+/*
+const takeCharges = async (req, res) => {
+    const { id } = req.params
 
+    try {
+
+        let charge = await knex('cobrancas').where('id_cobranca', id).first()
+
+if(!charge){
+    return res.status(404).json({message: 'Cobrança inexistente'})
+}
+
+let {id_cliente}
+
+
+} catch (error) {
+        return res.status(516).json({ message: 'Erro interno do servidor' })
+    }
+
+
+}
+*/
 module.exports = {
     registerCharges,
     updateCharges,
