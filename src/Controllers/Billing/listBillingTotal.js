@@ -36,6 +36,29 @@ const listBillingTotal = async (req, res) => {
     .where("status", "Paga")
     .sum("valor");
 
+
+  const clientInDay = await knex('clientes').select('clientes.id_cliente', 'clientes.nome_cliente as cliente', 'clientes.cpf')
+    .where('clientes.status', 'Em dia')
+    .orderBy('id_cliente', 'desc')
+    .limit(4)
+
+  const amountInday = await knex('clientes').where('status', 'Em dia').count('id_cliente')
+
+  const summaryInDay = {
+    clientInDay, total: amountInday[0].count
+  }
+
+  const clientDefaulters = await knex('clientes').select('clientes.id_cliente', 'clientes.nome_cliente as cliente', 'clientes.cpf')
+    .where('clientes.status', 'Inadimplente')
+    .orderBy('id_cliente', 'desc')
+    .limit(4)
+
+  const amountDefaulters = await knex('clientes').where('status', 'Inadimplente').count('id_cliente')
+
+  const summaryDefaulters = {
+    clientDefaulters, total: amountDefaulters[0].count
+  }
+
   const summaryTotal = {
     nome_usuario: userId.nome_usuario,
     Pagas: chargesTotalPaid,
@@ -47,6 +70,8 @@ const listBillingTotal = async (req, res) => {
     totalValorVencidas: totalValueOverdue,
     totalValorPendentes: totalValuePending,
     totalValorPagas: totalValuePaid,
+    totalEmdias: summaryInDay,
+    totalInadimplentes: summaryDefaulters
   };
   return res.status(200).json(summaryTotal);
   //trycatch
