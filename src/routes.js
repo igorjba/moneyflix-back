@@ -4,6 +4,8 @@ const validadeBody = require("./Middleware/authorization");
 
 const verifyLogin = require("./Middleware/verifyLogin");
 
+const validateCpf = require("./Middleware/validateCpf");
+
 const email = require('./Controllers/Users/email')
 const { loginUser } = require('./Controllers/Users/loginUser')
 const profile = require('./Controllers/Users/profile')
@@ -48,7 +50,7 @@ route.get("/", (req, res) => {
 
 route.get("/usuario/painel", verifyLogin, listBillingTotal);
 route.get('/usuario/:email', email)
-route.post("/usuario", validadeBody(SchemesRegister), registerUser);
+route.post("/usuario", validadeBody(SchemesRegister), validateCpf, registerUser);
 route.post("/login", validadeBody(SchemesLogin), loginUser);
 
 route.get("/usuario", verifyLogin, profile);
@@ -68,7 +70,7 @@ route.get("/cobranca/inadimplentes", verifyLogin, summaryDefaulters);
 
 route.get("/cliente", verifyLogin, listClient);
 route.get("/cliente/:id", detailClient);
-route.post("/cliente", verifyLogin, validadeBody(SchemesNewClients), registerNewClient);
+route.post("/cliente", verifyLogin, validadeBody(SchemesNewClients), validateCpf, registerNewClient);
 route.post("/cliente/:id", validadeBody(SchemesUpdateClient), updateClient);
 
 module.exports = route;
