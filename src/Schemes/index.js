@@ -57,7 +57,7 @@ const SchemesCharges = Joi.object({
   }),
 });
 
-const SchemesNewClients = Joi.object({
+const SchemesClients = Joi.object({
   nome: Joi.string().required().messages({
     "any.required": "Nome deve ser preenchido",
     "string.empty": "Nome é obrigatório",
@@ -105,45 +105,6 @@ const SchemesNewClients = Joi.object({
   }),
 });
 
-const SchemesUpdateClient = Joi.object({
-  nome: Joi.string().messages({
-    "string.empty": "Nome inválido!",
-  }),
-
-  email: Joi.string()
-    .email({ tlds: { allow: false } })
-    .required()
-    .messages({
-      "string.empty": "E-mail inválido!",
-      "string.email": "E-mail inválido!",
-    }),
-
-  telefone: Joi.string().messages({
-    "string.empty": "Telefone inválido!",
-  }),
-
-  cep: Joi.string().messages({
-    "string.empty": "CEP inválido!",
-  }),
-
-  logradouro: Joi.string(),
-
-  complemento: Joi.string(),
-
-  bairro: Joi.string(),
-
-  cidade: Joi.string().messages({
-    "string.empty": "Cidade inválida!",
-  }),
-
-  estado: Joi.string().messages({
-    "string.empty": "Estado inválido!",
-  }),
-
-  status: Joi.string().messages({
-    "string.empty": "Estatus inválido!",
-  }),
-});
 const SchemesValidateEmail = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
@@ -158,7 +119,6 @@ module.exports = {
   SchemesRegister,
   SchemesLogin,
   SchemesCharges,
-  SchemesNewClients,
-  SchemesUpdateClient,
+  SchemesClients,
   SchemesValidateEmail,
 };
