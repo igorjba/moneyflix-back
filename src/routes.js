@@ -62,8 +62,8 @@ route.post(
   registerCharges
 );
 route.put("/cobranca/editar/:id", validadeBody(SchemesCharges), updateCharges);
-route.get("/cobranca", listCharges);
-route.delete("/cobranca/delete/:id", deleteCharges);
+route.get("/cobranca", verifyLogin, listCharges);
+route.delete("/cobranca/delete/:id", verifyLogin, deleteCharges);
 
 route.get("/cobranca/total", verifyLogin, filterStatusCharges);
 route.get("/cobranca/vencidas", verifyLogin, summaryOverdue);
