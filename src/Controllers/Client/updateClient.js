@@ -3,78 +3,50 @@ const knex = require('../../Config/database');
 const updateClient = async (req, res) => {
     const { nome, email, telefone, cep, logradouro, complemento, bairro, cidade, estado, status } = req.body;
     const { id } = req.params;
+    let dataForUpdateClient = {}
 
-    try {       
-        if(nome){
-            const updateNameClient = await knex('clientes').update({nome_cliente: nome}).where({id_cliente: id}).returning('*');
-            if(updateNameClient.length === 0){
-                return res.status(400).json({message: "Não foi possivel atualizar o nome do cliente!"})
-            }
+    try {    
+        const checkemail = await knex('clientes').where({ email }).first();
+
+        if (checkemail) {
+            return res.status(400).json({ message: "E-email já cadastrado!" });
         }
-    
-        if(email){
-            const checkemail = await knex('clientes').where({email}).first();
+        const checkCpf = await knex('clientes').where({ cpf }).first();
 
-            if (checkemail) {
-                return res.status(400).json({ message: "E-email já cadastrado!" });
-            }
-
-            const updateEmailClient = await knex('clientes').update({email}).where({id_cliente: id}).returning('*');
-            if(updateEmailClient.length === 0){
-                return res.status(400).json({message: "Não foi possivel atualizar o email do cliente!"})
-            }
+        if (checkCpf) {
+            return res.status(400).json({ message: "CPF já cadastrado!" });
         }
 
-        if(telefone){
-            const updateTelefoneClient = await knex('clientes').update({telefone}).where({id_cliente: id}).returning('*');
-            if(updateTelefoneClient.length === 0){
-                return res.status(400).json({message: "Não foi possivel atualizar o telefone do cliente!"})
-            }
+        dataForUpdateClient = {
+            nome_cliente: nome,
+            email,
+            cpf,
+            telefone
         }
 
-        if(cep){
-            const updateCepClient = await knex('clientes').update({cep}).where({id_cliente: id}).returning('*');
-            if(updateCepClient.length === 0){
-                return res.status(400).json({message: "Não foi possivel atualizar o cep do cliente!"})
-            }
+        if (cep) {
+            dataForUpdateClient = { ...dataForUpdateClient, cep };
         }
-        if(logradouro){
-            const updateLogradouroClient = await knex('clientes').update({endereco: logradouro}).where({id_cliente: id}).returning('*');
-            if(updateLogradouroClient.length === 0){
-                return res.status(400).json({message: "Não foi possivel atualizar o endereço do cliente!"})
-            }
+        if (logradouro) {
+            dataForUpdateClient = { ...dataForUpdateClient, endereco: logradouro };
         }
-        if(complemento){
-            const updateComplementoClient = await knex('clientes').update({complemento}).where({id_cliente: id}).returning('*');
-            if(updateComplementoClient.length === 0){
-                return res.status(400).json({message: "Não foi possivel atualizar o complemento do cliente!"})
-            }
+        if (complemento) {
+            dataForUpdateClient = { ...dataForUpdateClient, complemento };
         }
-        if(bairro){
-            const updateBairroClient = await knex('clientes').update({bairro}).where({id_cliente: id}).returning('*');
-            if(updateBairroClient.length === 0){
-                return res.status(400).json({message: "Não foi possivel atualizar o bairro do cliente!"})
-            }
+        if (bairro) {
+            dataForUpdateClient = { ...dataForUpdateClient, bairro };
         }
-        if(cidade){
-            const updateCidadeClient = await knex('clientes').update({cidade}).where({id_cliente: id}).returning('*');
-            if(updateCidadeClient.length === 0){
-                return res.status(400).json({message: "Não foi possivel atualizar a cidade do cliente!"})
-            }
+        if (cidade) {
+            dataForUpdateClient = { ...dataForUpdateClient, cidade };
         }
-        if(estado){
-            const updateEstadoClient = await knex('clientes').update({estado}).where({id_cliente: id}).returning('*');
-            if(updateEstadoClient.length === 0){
-                return res.status(400).json({message: "Não foi possivel atualizar o estado do cliente!"})
-            }
+        if (estado) {
+            dataForUpdateClient = { ...dataForUpdateClient, estado };
+        }
+        if (status) {
+            dataForUpdateClient = { ...dataForUpdateClient, status }
         }
 
-        if(status){
-            const updateStatusClient = await knex('clientes').update({status}).where({id_cliente: id}).returning('*');
-            if(updateStatusClient.length === 0){
-                return res.status(400).json({message: "Não foi possivel atualizar o estatus do cliente!"})
-            }
-        }
+        await knex('clientes').update(dataForUpdateClient).where({id_cliente: id});
 
         return res.status(201).json({message: "Cliente atualizado com sucesso!"})
 

@@ -37,8 +37,7 @@ const {
   SchemesRegister,
   SchemesLogin,
   SchemesCharges,
-  SchemesNewClients,
-  SchemesUpdateClient,
+  SchemesClients,
   SchemesValidateEmail,
 } = require("./Schemes/index");
 
@@ -62,8 +61,8 @@ route.post(
   registerCharges
 );
 route.put("/cobranca/editar/:id", validadeBody(SchemesCharges), updateCharges);
-route.get("/cobranca", listCharges);
-route.delete("/cobranca/delete/:id", deleteCharges);
+route.get("/cobranca", verifyLogin, listCharges);
+route.delete("/cobranca/delete/:id", verifyLogin, deleteCharges);
 
 route.get("/cobranca/total", verifyLogin, filterStatusCharges);
 route.get("/cobranca/vencidas", verifyLogin, summaryOverdue);
@@ -74,8 +73,8 @@ route.get("/cobranca/inadimplentes", verifyLogin, summaryDefaulters);
 
 route.get("/cliente", verifyLogin, listClient);
 route.get("/cliente/:id", detailClient);
-route.post("/cliente", verifyLogin, validadeBody(SchemesNewClients), validateCpf, registerNewClient
+route.post("/cliente", verifyLogin, validadeBody(SchemesClients), validateCpf, registerNewClient
 );
-route.post("/cliente/:id", validadeBody(SchemesUpdateClient), updateClient);
+route.post("/cliente/:id", validadeBody(SchemesClients), updateClient);
 
 module.exports = route;
