@@ -1,141 +1,164 @@
-const joi = require("joi");
+const Joi = require("joi");
 
-const SchemesRegister = joi.object({
-  nome: joi.string().required().messages({
-    'any.required': 'O campo nome é obrigatório',
-    'string.empty': 'O campo nome é obrigatório',
-    'string.base': 'O campo nome precisa ser uma string'
+const SchemesRegister = Joi.object({
+  nome: Joi.string().required().min(3).pattern(/^[\p{L}][\p{L}\s]{2,}$/u).messages({
+    "any.required": "O campo nome é obrigatório",
+    "string.empty": "O campo nome é obrigatório",
+    "string.base": "Campo nome inválido",
+    "string.pattern.base": "Campo nome inválido"
   }),
-  email: joi.string().required().messages({
-    'any.required': 'O campo email é obrigatório',
-    'string.empty': 'O campo email é obrigatório',
-    'string.email': 'E-mail inválido',
-    'string.base': 'O campo email precisa ser uma string'
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required()
+    .messages({
+      "any.required": "O campo email é obrigatório",
+      "string.empty": "O campo email é obrigatório",
+      "string.email": "E-mail inválido",
+      "string.base": "O campo email precisa ser uma string",
+    }),
+  senha: Joi.string().required().messages({
+    "any.required": "O campo senha é obrigatório",
+    "string.empty": "O campo senha é obrigatório",
+    "string.base": "O campo senha precisa ser uma string",
   }),
-  senha: joi.string().required().messages({
-    'any.required': 'O campo senha é obrigatório',
-    'string.empty': 'O campo senha é obrigatório',
-    'string.base': 'O campo senha precisa ser uma string'
-  })
-})
+});
 
-const SchemesLogin = joi.object({
-  email: joi.string().required().messages({
-    'any.required': 'O campo e-mail é obrigatório',
-    'string.empty': 'O campo e-mail é obrigatório',
-    'string.email': 'E-mail inválido',
-    'string.base': 'O campo e-mail precisa ser uma string'
+const SchemesLogin = Joi.object({
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required()
+    .messages({
+      "any.required": "O campo e-mail é obrigatório",
+      "string.empty": "O campo e-mail é obrigatório",
+      "string.email": "E-mail inválido",
+      "string.base": "O campo e-mail precisa ser uma string",
+    }),
+  senha: Joi.string().required().messages({
+    "any.required": "O campo senha é obrigatório",
+    "string.empty": "O campo senha é obrigatório",
+    "string.base": "O campo senha precisa ser uma string",
   }),
-  senha: joi.string().required().messages({
-    'any.required': 'O campo senha é obrigatório',
-    'string.empty': 'O campo senha é obrigatório',
-    'string.base': 'O campo senha precisa ser uma string'
-  })
-})
+});
 
-const SchemesCharges = joi.object({
-  descricao: joi.string().required().messages({
+const SchemesCharges = Joi.object({
+  descricao: Joi.string().required().messages({
     "any.required": "Este campo deve ser preenchido",
   }),
-  valor: joi.number().positive().required().messages({
+  valor: Joi.number().positive().required().messages({
     "number.base": "O campo valor deve ser um número.",
     "number.positive": "O campo valor deve ser um número positivo.",
     "any.required": "Este campo deve ser preenchido",
   }),
-  vencimento: joi.date().required().messages({
+  vencimento: Joi.date().required().messages({
     "any.required": "Este campo deve ser preenchido",
   }),
-  status: joi.string().required().messages({
+  status: Joi.string().required().messages({
     "any.required": "Este campo deve ser preenchido",
   }),
 });
 
-const SchemesNewClients = joi.object({
-  nome: joi.string().required().messages({
+const SchemesNewClients = Joi.object({
+  nome: Joi.string().required().messages({
     "any.required": "Nome deve ser preenchido",
     "string.empty": "Nome é obrigatório",
   }),
 
-  email: joi.string().email().required().messages({
-    "any.required": "E-mail deve ser preenchido",
-    "string.empty": "E-mail é obrigatório",
-    "string.email": "E-mail inválido",
-  }),
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required()
+    .messages({
+      "any.required": "E-mail deve ser preenchido",
+      "string.empty": "E-mail é obrigatório",
+      "string.email": "E-mail inválido",
+    }),
 
-  cpf: joi.string().required().messages({
+  cpf: Joi.string().required().messages({
     "any.required": "CPF deve ser preenchido",
     "string.empty": "CPF é obrigatório",
   }),
 
-  telefone: joi.string().required().messages({
+  telefone: Joi.string().required().messages({
     "any.required": "Telefone deve ser preenchido",
     "string.empty": "Telefone é obrigatório",
   }),
 
-  cep: joi.string().messages({
+  cep: Joi.string().messages({
     "string.empty": "Informe um cep válido!",
   }),
 
-  logradouro: joi.string(),
+  logradouro: Joi.string(),
 
-  complemento: joi.string(),
+  complemento: Joi.string(),
 
-  bairro: joi.string(),
+  bairro: Joi.string(),
 
-  cidade: joi.string().messages({
+  cidade: Joi.string().messages({
     "string.empty": "Informe uma cidade válida!",
   }),
 
-  estado: joi.string().messages({
+  estado: Joi.string().messages({
     "string.empty": "Informe um estado válido!",
   }),
 
-  status: joi.string().messages({
+  status: Joi.string().messages({
     "string.empty": "Estatus inválido!",
   }),
 });
 
-const SchemesUpdateClient = joi.object({
-  nome: joi.string().messages({
+const SchemesUpdateClient = Joi.object({
+  nome: Joi.string().messages({
     "string.empty": "Nome inválido!",
   }),
 
-  email: joi.string().email().messages({
-    "string.empty": "E-mail inválido!",
-    "string.email": "E-mail inválido!",
-  }),
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required()
+    .messages({
+      "string.empty": "E-mail inválido!",
+      "string.email": "E-mail inválido!",
+    }),
 
-  telefone: joi.string().messages({
+  telefone: Joi.string().messages({
     "string.empty": "Telefone inválido!",
   }),
 
-  cep: joi.string().messages({
+  cep: Joi.string().messages({
     "string.empty": "CEP inválido!",
   }),
 
-  logradouro: joi.string(),
+  logradouro: Joi.string(),
 
-  complemento: joi.string(),
+  complemento: Joi.string(),
 
-  bairro: joi.string(),
+  bairro: Joi.string(),
 
-  cidade: joi.string().messages({
+  cidade: Joi.string().messages({
     "string.empty": "Cidade inválida!",
   }),
 
-  estado: joi.string().messages({
+  estado: Joi.string().messages({
     "string.empty": "Estado inválido!",
   }),
 
-  status: joi.string().messages({
+  status: Joi.string().messages({
     "string.empty": "Estatus inválido!",
   }),
 });
-
+const SchemesValidateEmail = Joi.object({
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required()
+    .messages({
+      "any.required": "E-mail deve ser preenchido",
+      "string.empty": "E-mail é obrigatório",
+      "string.email": "E-mail inválido",
+    }),
+});
 module.exports = {
   SchemesRegister,
   SchemesLogin,
   SchemesCharges,
   SchemesNewClients,
   SchemesUpdateClient,
+  SchemesValidateEmail,
 };
