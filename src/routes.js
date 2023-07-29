@@ -6,11 +6,11 @@ const verifyLogin = require("./Middleware/verifyLogin");
 
 const validateCpf = require("./Middleware/validateCpf");
 
-const email = require('./Controllers/Users/email')
-const { loginUser } = require('./Controllers/Users/loginUser')
-const profile = require('./Controllers/Users/profile')
-const { registerUser } = require('./Controllers/Users/registerUser')
-const { updateUser } = require('./Controllers/Users/updateUser')
+const email = require("./Controllers/Users/email");
+const { loginUser } = require("./Controllers/Users/loginUser");
+const profile = require("./Controllers/Users/profile");
+const { registerUser } = require("./Controllers/Users/registerUser");
+const { updateUser } = require("./Controllers/Users/updateUser");
 
 const registerNewClient = require("./Controllers/Client/registerClient");
 const detailClient = require("./Controllers/Client/detailsClient");
@@ -33,13 +33,13 @@ const {
   summaryDefaulters,
 } = require("./Controllers/Billing/listBillingController");
 
-
 const {
   SchemesRegister,
   SchemesLogin,
   SchemesCharges,
   SchemesNewClients,
-  SchemesUpdateClient
+  SchemesUpdateClient,
+  SchemesValidateEmail,
 } = require("./Schemes/index");
 
 const route = express();
@@ -49,14 +49,18 @@ route.get("/", (req, res) => {
 });
 
 route.get("/usuario/painel", verifyLogin, listBillingTotal);
-route.get('/usuario/:email', email)
-route.post("/usuario", validadeBody(SchemesRegister), validateCpf, registerUser);
+route.get("/email", validadeBody(SchemesValidateEmail), email);
+route.post("/usuario", validadeBody(SchemesRegister), registerUser);
 route.post("/login", validadeBody(SchemesLogin), loginUser);
 
 route.get("/usuario", verifyLogin, profile);
 route.put("/usuario/atualizar", verifyLogin, updateUser);
 
-route.post("/cobranca/cadastro/:id", validadeBody(SchemesCharges), registerCharges);
+route.post(
+  "/cobranca/cadastro/:id",
+  validadeBody(SchemesCharges),
+  registerCharges
+);
 route.put("/cobranca/editar/:id", validadeBody(SchemesCharges), updateCharges);
 route.get("/cobranca", listCharges);
 route.delete("/cobranca/delete/:id", deleteCharges);
@@ -70,7 +74,13 @@ route.get("/cobranca/inadimplentes", verifyLogin, summaryDefaulters);
 
 route.get("/cliente", verifyLogin, listClient);
 route.get("/cliente/:id", detailClient);
-route.post("/cliente", verifyLogin, validadeBody(SchemesNewClients), validateCpf, registerNewClient);
+route.post(
+  "/cliente",
+  verifyLogin,
+  validadeBody(SchemesNewClients),
+  validateCpf,
+  registerNewClient
+);
 route.post("/cliente/:id", validadeBody(SchemesUpdateClient), updateClient);
 
 module.exports = route;
