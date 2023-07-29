@@ -6,7 +6,7 @@ const SchemesRegister = joi.object({
     'string.empty': 'O campo nome é obrigatório',
     'string.base': 'O campo nome precisa ser uma string'
   }),
-  email: joi.string().required().messages({
+  email: joi.string().email().required().messages({
     'any.required': 'O campo email é obrigatório',
     'string.empty': 'O campo email é obrigatório',
     'string.email': 'E-mail inválido',
@@ -20,7 +20,7 @@ const SchemesRegister = joi.object({
 })
 
 const SchemesLogin = joi.object({
-  email: joi.string().required().messages({
+  email: joi.string().email().required().messages({
     'any.required': 'O campo e-mail é obrigatório',
     'string.empty': 'O campo e-mail é obrigatório',
     'string.email': 'E-mail inválido',
