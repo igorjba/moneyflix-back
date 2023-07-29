@@ -46,7 +46,7 @@ const updateClient = async (req, res) => {
             dataForUpdateClient = { ...dataForUpdateClient, status }
         }
 
-        await knex('clientes').update(dataForUpdateClient).where({id_cliente: id}).returning('*');
+        await knex('clientes').update(dataForUpdateClient).where({id_cliente: id});
 
         return res.status(201).json({message: "Cliente atualizado com sucesso!"})
 

@@ -37,8 +37,7 @@ const {
   SchemesRegister,
   SchemesLogin,
   SchemesCharges,
-  SchemesNewClients,
-  SchemesUpdateClient,
+  SchemesClients,
   SchemesValidateEmail,
 } = require("./Schemes/index");
 
@@ -74,8 +73,8 @@ route.get("/cobranca/inadimplentes", verifyLogin, summaryDefaulters);
 
 route.get("/cliente", verifyLogin, listClient);
 route.get("/cliente/:id", detailClient);
-route.post("/cliente", verifyLogin, validadeBody(SchemesNewClients), validateCpf, registerNewClient
+route.post("/cliente", verifyLogin, validadeBody(SchemesClients), validateCpf, registerNewClient
 );
-route.post("/cliente/:id", validadeBody(SchemesUpdateClient), updateClient);
+route.post("/cliente/:id", validadeBody(SchemesClients), updateClient);
 
 module.exports = route;
