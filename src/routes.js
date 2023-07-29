@@ -54,7 +54,7 @@ route.post("/usuario", validadeBody(SchemesRegister), registerUser);
 route.post("/login", validadeBody(SchemesLogin), loginUser);
 
 route.get("/usuario", verifyLogin, profile);
-route.put("/usuario/atualizar", verifyLogin, updateUser);
+route.put("/usuario/atualizar", verifyLogin, validateCpf, updateUser);
 
 route.post(
   "/cobranca/cadastro/:id",
@@ -74,12 +74,7 @@ route.get("/cobranca/inadimplentes", verifyLogin, summaryDefaulters);
 
 route.get("/cliente", verifyLogin, listClient);
 route.get("/cliente/:id", detailClient);
-route.post(
-  "/cliente",
-  verifyLogin,
-  validadeBody(SchemesNewClients),
-  validateCpf,
-  registerNewClient
+route.post("/cliente", verifyLogin, validadeBody(SchemesNewClients), validateCpf, registerNewClient
 );
 route.post("/cliente/:id", validadeBody(SchemesUpdateClient), updateClient);
 

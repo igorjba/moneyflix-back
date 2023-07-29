@@ -12,6 +12,9 @@ const registerUser = async (req, res) => {
             return res.status(400).json({ message: "E-email já cadastrado" })
         }
 
+        if (senha.length < 6) {
+            return res.status(400).json({ message: "A senha deve ter no minimo 6 digitos" })
+        }
         const passwordCrypt = await bcrypt.hash(senha, 10);
 
         await knex('usuarios').insert({
