@@ -10,7 +10,12 @@ const updateUser = async (req, res) => {
     if (!nome || !email) {
       return res
         .status(400)
-        .json({ error: "Nome e email são campos obrigatórios." });
+        .json({ message: "Nome e email são campos obrigatórios." });
+    }
+
+    const nameValid = /^[\p{L}][\p{L}\s]{2,}$/u
+    if (!nameValid.test(nome) || String(nome).trim(' ').length < 3) {
+      return res.status(409).json({ message: "Nome inválido" });
     }
 
     const verifyEmail = await knex("usuarios")
@@ -20,7 +25,7 @@ const updateUser = async (req, res) => {
     if (verifyEmail) {
       return res
         .status(409)
-        .json({ error: "E-mail já cadastrado para outro usuário." });
+        .json({ message: "E-mail já cadastrado para outro usuário." });
     }
 
     if (cpf) {
@@ -31,7 +36,7 @@ const updateUser = async (req, res) => {
       if (verifyCpf) {
         return res
           .status(409)
-          .json({ error: "CPF já cadastrado para outro usuário." });
+          .json({ message: "CPF já cadastrado para outro usuário." });
       }
     }
 
@@ -43,7 +48,10 @@ const updateUser = async (req, res) => {
           if (senha !== confirmeSenha) {
             return res
               .status(400)
-              .json({ error: "As senha não correspondem." });
+              .json({ message: "As senha não correspondem." });
+          }
+          if (senha.length < 6) {
+            return res.status(400).json({ message: "A senha deve ter no minimo 6 digitos" })
           }
           const hashPassword = await bcrypt.hash(senha, 10);
           updatedUserData.senha = hashPassword;
@@ -55,7 +63,15 @@ const updateUser = async (req, res) => {
       return res.status(400).json({ message: "Digite a senha Atual!" });
     }
     if (cpf) updatedUserData.cpf = cpf;
-    if (telefone) updatedUserData.telefone = telefone;
+
+    if (telefone) {
+      String(telefone)
+      if (telefone.length === 11 || telefone.length === 10) {
+        updatedUserData.telefone = telefone;
+      } else {
+        return res.status(400).json({ message: "Telefone inválido" });
+      }
+    }
 
     await knex("usuarios")
       .where("id_usuario", userId.id_usuario)

@@ -1,10 +1,11 @@
 const Joi = require("joi");
 
 const SchemesRegister = Joi.object({
-  nome: Joi.string().required().messages({
+  nome: Joi.string().required().min(3).pattern(/^[\p{L}][\p{L}\s]{2,}$/u).messages({
     "any.required": "O campo nome é obrigatório",
     "string.empty": "O campo nome é obrigatório",
-    "string.base": "O campo nome precisa ser uma string",
+    "string.base": "Campo nome inválido",
+    "string.pattern.base": "Campo nome inválido"
   }),
   email: Joi.string()
     .email({ tlds: { allow: false } })
