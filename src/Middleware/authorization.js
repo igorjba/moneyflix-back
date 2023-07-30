@@ -8,4 +8,5 @@ const validateBody = joiSchema => async (req, res, next) => {
         return res.status(513).json({ message: error.message })
     }
 }
-module.exports = validateBody   
+
+module.exports = validateBody 
