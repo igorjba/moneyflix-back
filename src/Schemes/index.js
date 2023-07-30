@@ -61,6 +61,7 @@ const SchemesClients = Joi.object({
   nome: Joi.string().required().messages({
     "any.required": "Nome deve ser preenchido",
     "string.empty": "Nome é obrigatório",
+    "string.base": "O campo senha precisa ser uma string",
   }),
 
   email: Joi.string()
@@ -70,38 +71,53 @@ const SchemesClients = Joi.object({
       "any.required": "E-mail deve ser preenchido",
       "string.empty": "E-mail é obrigatório",
       "string.email": "E-mail inválido",
+      "string.base": "O campo nome precisa ser uma string",
     }),
 
   cpf: Joi.string().required().messages({
     "any.required": "CPF deve ser preenchido",
     "string.empty": "CPF é obrigatório",
+    "string.base": "O campo cpf precisa ser uma string",
   }),
 
-  telefone: Joi.string().required().messages({
+  telefone: Joi.string().min(10).max(11).required().messages({
     "any.required": "Telefone deve ser preenchido",
     "string.empty": "Telefone é obrigatório",
+    "string.base": "O campo telefone precisa ser uma string",
+    "string.min": "O telefone deve no mínimo 10 caracteres",
+    "string.max": "O telefone deve ter no máximo 11 caracteres"
   }),
 
   cep: Joi.string().messages({
     "string.empty": "Informe um cep válido!",
+    "string.base": "O campo cep precisa ser uma string",
   }),
 
-  logradouro: Joi.string(),
+  logradouro: Joi.string().messages({
+    "string.base": "O campo logradouro precisa ser uma string"
+  }),
 
-  complemento: Joi.string(),
+  complemento: Joi.string().messages({
+    "string.base": "O campo complemento precisa ser uma string"
+  }),
 
-  bairro: Joi.string(),
+  bairro: Joi.string().messages({
+    "string.base": "O campo bairro precisa ser uma string",
+  }),
 
   cidade: Joi.string().messages({
     "string.empty": "Informe uma cidade válida!",
+    "string.base": "O campo cidade precisa ser uma string",
   }),
 
   estado: Joi.string().messages({
     "string.empty": "Informe um estado válido!",
+    "string.base": "O campo estado precisa ser uma string",
   }),
 
   status: Joi.string().messages({
     "string.empty": "Estatus inválido!",
+    "string.base": "O campo status precisa ser uma string",
   }),
 });
 
