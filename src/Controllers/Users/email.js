@@ -1,7 +1,7 @@
 const knex = require("../../Config/database");
 
 const email = async (req, res) => {
-  const { email } = req.body;
+  const { email } = req.query;
 
   try {
     const result = await knex("usuarios").where({ email }).returning("*");
