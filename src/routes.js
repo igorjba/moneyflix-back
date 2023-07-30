@@ -75,6 +75,6 @@ route.get("/cliente", verifyLogin, listClient);
 route.get("/cliente/:id", detailClient);
 route.post("/cliente", verifyLogin, validadeBody(SchemesClients), validateCpf, registerNewClient
 );
-route.post("/cliente/:id", validadeBody(SchemesClients), updateClient);
+route.put("/cliente/:id", validadeBody(SchemesClients), validateCpf, updateClient);
 
 module.exports = route;
