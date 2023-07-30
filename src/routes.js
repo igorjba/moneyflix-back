@@ -1,6 +1,7 @@
 const express = require("express");
 
 const validadeBody = require("./Middleware/authorization");
+const validadeQuery = require("./Middleware/validateEmail");
 
 const verifyLogin = require("./Middleware/verifyLogin");
 
@@ -48,7 +49,7 @@ route.get("/", (req, res) => {
 });
 
 route.get("/usuario/painel", verifyLogin, listBillingTotal);
-route.get("/email", validadeBody(SchemesValidateEmail), email);
+route.get("/email/", validadeQuery(SchemesValidateEmail), email);
 route.post("/usuario", validadeBody(SchemesRegister), registerUser);
 route.post("/login", validadeBody(SchemesLogin), loginUser);
 
