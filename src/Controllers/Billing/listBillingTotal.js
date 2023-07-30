@@ -1,17 +1,25 @@
 const knex = require("../../Config/database");
 const listBillingTotal = async (req, res) => {
   const userId = req.user;
+
   const chargesTotalPaid = await knex("cobrancas")
-    .where("status", "Paga")
+    .leftJoin("clientes", "cobrancas.id_cliente", "clientes.id_cliente")
+    .select("cobrancas.*", "clientes.nome_cliente")
+    .where("cobrancas.status", "Paga")
     .limit(4);
 
   const chargesTotalPending = await knex("cobrancas")
-    .where("status", "Pendente")
+    .join("clientes", "cobrancas.id_cliente", "clientes.id_cliente")
+    .select("cobrancas.*", "clientes.nome_cliente")
+    .where("cobrancas.status", "Pendente")
     .limit(4);
 
   const chargesTotalOverdue = await knex("cobrancas")
-    .where("status", "Vencida")
+    .join("clientes", "cobrancas.id_cliente", "clientes.id_cliente")
+    .select("cobrancas.*", "clientes.nome_cliente")
+    .where("cobrancas.status", "Vencida")
     .limit(4);
+
   const amountOverdue = await knex("cobrancas")
     .where("status", "Vencida")
     .count("id_cobranca");
@@ -73,8 +81,8 @@ const listBillingTotal = async (req, res) => {
     totalEmdias: summaryInDay,
     totalInadimplentes: summaryDefaulters
   };
+
   return res.status(200).json(summaryTotal);
-  //trycatch
 };
 
 module.exports = listBillingTotal;

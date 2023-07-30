@@ -79,7 +79,7 @@ const updateCharges = async (req, res) => {
 }
 
 const listCharges = async (req, res) => {
-    const { status, data } = req.body;
+    const { status, data, cliente, id } = req.body;
 
     try {
 
@@ -104,39 +104,62 @@ const listCharges = async (req, res) => {
             .select('cobrancas.*', 'clientes.nome_cliente as cliente')
             .orderBy('id_cliente');
 
-        if (status && data) {
 
+        if (cliente) {
             const listChargesFilter = await knex('cobrancas')
-                .where('cobrancas.status', status)
-                .andWhere('cobrancas.vencimento', data)
+                .where('clientes.nome_cliente', 'ilike', `${cliente}%`)
                 .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
                 .select('cobrancas.*', 'clientes.nome_cliente as cliente')
-                .orderBy('id_cliente');
+                .orderBy('id_cliente')
 
             return res.status(200).json(listChargesFilter)
+        } else
 
-        } else if (status) {
-            const listChargesFilter = await knex('cobrancas')
-                .where('cobrancas.status', status)
-                .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
-                .select('cobrancas.*', 'clientes.nome_cliente as cliente')
-                .orderBy('id_cliente');
+            if (id) {
 
-            return res.status(200).json(listChargesFilter)
+                const listChargesFilter = await knex('cobrancas')
+                    .where('cobrancas.id_cobranca', id)
+                    .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
+                    .select('cobrancas.*', 'clientes.nome_cliente as cliente')
+                    .orderBy('id_cliente')
 
-        } else if (data) {
-            const listChargesFilter = await knex('cobrancas')
-                .where('cobrancas.vencimento', data)
-                .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
-                .select('cobrancas.*', 'clientes.nome_cliente as cliente')
-                .orderBy('id_cliente');
+                return res.status(200).json(listChargesFilter)
+            } else
 
-            return res.status(200).json(listChargesFilter)
-        }
+                if (status && data) {
+
+                    const listChargesFilter = await knex('cobrancas')
+                        .where('cobrancas.status', status)
+                        .andWhere('cobrancas.vencimento', data)
+                        .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
+                        .select('cobrancas.*', 'clientes.nome_cliente as cliente')
+                        .orderBy('id_cliente');
+
+                    return res.status(200).json(listChargesFilter)
+
+                } else if (status) {
+                    const listChargesFilter = await knex('cobrancas')
+                        .where('cobrancas.status', status)
+                        .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
+                        .select('cobrancas.*', 'clientes.nome_cliente as cliente')
+                        .orderBy('id_cliente');
+
+                    return res.status(200).json(listChargesFilter)
+
+                } else if (data) {
+                    const listChargesFilter = await knex('cobrancas')
+                        .where('cobrancas.vencimento', data)
+                        .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
+                        .select('cobrancas.*', 'clientes.nome_cliente as cliente')
+                        .orderBy('id_cliente');
+
+                    return res.status(200).json(listChargesFilter)
+                }
 
         return res.status(200).json(updateBilling)
 
     } catch (error) {
+        console.log(error)
         return res.status(503).json({ message: 'Erro interno do servidor' })
     }
 }
