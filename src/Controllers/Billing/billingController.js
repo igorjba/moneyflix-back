@@ -102,7 +102,7 @@ const listCharges = async (req, res) => {
         const updateBilling = await knex('cobrancas')
             .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
             .select('cobrancas.*', 'clientes.nome_cliente as cliente')
-            .orderBy('id_cliente');
+            .orderBy('id_cobranca', 'desc');
 
 
         if (cliente) {
@@ -110,7 +110,7 @@ const listCharges = async (req, res) => {
                 .where('clientes.nome_cliente', 'ilike', `${cliente}%`)
                 .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
                 .select('cobrancas.*', 'clientes.nome_cliente as cliente')
-                .orderBy('id_cliente')
+                .orderBy('id_cobranca', 'desc')
 
             return res.status(200).json(listChargesFilter)
         } else
@@ -121,7 +121,7 @@ const listCharges = async (req, res) => {
                     .where('cobrancas.id_cobranca', id)
                     .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
                     .select('cobrancas.*', 'clientes.nome_cliente as cliente')
-                    .orderBy('id_cliente')
+                    .orderBy('id_cobranca', 'desc')
 
                 return res.status(200).json(listChargesFilter)
             } else
@@ -133,7 +133,7 @@ const listCharges = async (req, res) => {
                         .andWhere('cobrancas.vencimento', data)
                         .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
                         .select('cobrancas.*', 'clientes.nome_cliente as cliente')
-                        .orderBy('id_cliente');
+                        .orderBy('id_cobranca', 'desc');
 
                     return res.status(200).json(listChargesFilter)
 
@@ -142,7 +142,7 @@ const listCharges = async (req, res) => {
                         .where('cobrancas.status', status)
                         .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
                         .select('cobrancas.*', 'clientes.nome_cliente as cliente')
-                        .orderBy('id_cliente');
+                        .orderBy('id_cobranca', 'desc');
 
                     return res.status(200).json(listChargesFilter)
 
@@ -151,7 +151,7 @@ const listCharges = async (req, res) => {
                         .where('cobrancas.vencimento', data)
                         .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
                         .select('cobrancas.*', 'clientes.nome_cliente as cliente')
-                        .orderBy('id_cliente');
+                        .orderBy('id_cobranca', 'desc');
 
                     return res.status(200).json(listChargesFilter)
                 }
