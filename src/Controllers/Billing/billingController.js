@@ -7,13 +7,12 @@ const currentDate = new Date().setHours(0, 0, 0, 0, 0)
 const registerCharges = async (req, res) => {
 
     const { descricao, valor, vencimento, status } = req.body;
-    const { id_cliente } = req.params;
-
+    const { id } = req.params;
 
     try {
         await SchemesCharges.validate(req.body);
 
-        const clientExists = await knex('clientes').where('id_cliente', id_cliente).first()
+        const clientExists = await knex('clientes').where("id_cliente", id).first()
 
         if (!clientExists) {
             return res.status(400).json({ message: 'Cliente não encontrado' })
@@ -29,7 +28,7 @@ const registerCharges = async (req, res) => {
 
         if (charges[0].status === 'Pendente' && charges[0].vencimento < currentDate) {
             charges[0] = await knex('cobrancas')
-                .where('id', charges[0].id_cobranca)
+                .where('id_cobranca', charges[0].id_cobranca)
                 .update({ status: 'Vencida' })
                 .returning('*')
         }
@@ -37,19 +36,20 @@ const registerCharges = async (req, res) => {
         return res.status(201).json({ message: 'Cobrança cadastrada com sucesso' })
 
     } catch (error) {
-        return res.status(500).json({ message: 'Erro interno do servidor' })
+        return res.status(501).json({ message: 'Erro interno do servidor' })
     }
 }
 
 const updateCharges = async (req, res) => {
 
-    const { id_cobranca } = req.params;
     let { descricao, valor, vencimento, status } = req.body;
+    const { id } = req.params;
 
     try {
         await SchemesCharges.validate(req.body);
 
-        const charges = await knex('cobrancas').where('id_cobranca', id_cobranca).first();
+        const charges = await knex('cobrancas').where('id_cobranca', id).first();
+
 
         if (!charges) {
             return res.status(400).json({ message: 'Cobrança não cadastrada' })
@@ -66,31 +66,27 @@ const updateCharges = async (req, res) => {
 
         const editedData = await knex('cobrancas')
             .update({ descricao, valor, vencimento, status })
-            .where({ id_cobranca })
+            .where('id_cobranca', id)
 
         if (!editedData) {
             return res.status(400).json({ message: 'Cobrança não foi alterada' })
         }
-
         return res.status(200).json({ message: 'Cobrança alterada com sucesso!' })
 
-
     } catch (error) {
-        return res.status(500).json({ message: 'Erro interno do servidor' })
+        return res.status(502).json({ message: 'Erro interno do servidor' })
     }
-
-
-
 }
 
 const listCharges = async (req, res) => {
-    const { status, data } = req.query;
+    const { status, data, cliente, id } = req.body;
 
     try {
 
         const charges = await knex('cobrancas')
 
         for (let charge of charges) {
+
             if (charge.status === 'Pendente' && ++charge.vencimento < currentDate) {
                 charge.status = await knex('cobrancas')
                     .where('id_cobranca', charge.id_cobranca)
@@ -104,53 +100,76 @@ const listCharges = async (req, res) => {
         }
 
         const updateBilling = await knex('cobrancas')
-            .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cobranca')
-            .select('cobrancas.*', 'clientes.nome_clientes as cliente')
+            .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
+            .select('cobrancas.*', 'clientes.nome_cliente as cliente')
             .orderBy('id_cliente');
 
-        if (status && data) {
+
+        if (cliente) {
             const listChargesFilter = await knex('cobrancas')
-                .where('cobrancas.status', status)
-                .andWhere('cobrancas.vencimento', data)
-                .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cobranca')
+                .where('clientes.nome_cliente', 'ilike', `${cliente}%`)
+                .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
                 .select('cobrancas.*', 'clientes.nome_cliente as cliente')
-                .orderBy('id_cliente');
+                .orderBy('id_cliente')
 
             return res.status(200).json(listChargesFilter)
+        } else
 
-        } else if (status) {
-            const listChargesFilter = await knex('cobrancas')
-                .where('cobrancas.status', status)
-                .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cobranca')
-                .select('cobrancas.*', 'clientes.nome_cliente as cliente')
-                .orderBy('id_cliente');
+            if (id) {
 
-            return res.status(200).json(listChargesFilter)
+                const listChargesFilter = await knex('cobrancas')
+                    .where('cobrancas.id_cobranca', id)
+                    .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
+                    .select('cobrancas.*', 'clientes.nome_cliente as cliente')
+                    .orderBy('id_cliente')
 
-        } else if (data) {
-            const listChargesFilter = await knex('cobrancas')
-                .where('cobrancas.vencimento', data)
-                .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cobranca')
-                .select('cobrancas.*', 'clientes.nome_cliente as cliente')
-                .orderBy('id_cliente');
+                return res.status(200).json(listChargesFilter)
+            } else
 
-            return res.status(200).json(listChargesFilter)
-        }
+                if (status && data) {
+
+                    const listChargesFilter = await knex('cobrancas')
+                        .where('cobrancas.status', status)
+                        .andWhere('cobrancas.vencimento', data)
+                        .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
+                        .select('cobrancas.*', 'clientes.nome_cliente as cliente')
+                        .orderBy('id_cliente');
+
+                    return res.status(200).json(listChargesFilter)
+
+                } else if (status) {
+                    const listChargesFilter = await knex('cobrancas')
+                        .where('cobrancas.status', status)
+                        .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
+                        .select('cobrancas.*', 'clientes.nome_cliente as cliente')
+                        .orderBy('id_cliente');
+
+                    return res.status(200).json(listChargesFilter)
+
+                } else if (data) {
+                    const listChargesFilter = await knex('cobrancas')
+                        .where('cobrancas.vencimento', data)
+                        .leftJoin('clientes', 'cobrancas.id_cliente', 'clientes.id_cliente')
+                        .select('cobrancas.*', 'clientes.nome_cliente as cliente')
+                        .orderBy('id_cliente');
+
+                    return res.status(200).json(listChargesFilter)
+                }
 
         return res.status(200).json(updateBilling)
 
     } catch (error) {
-
-        return res.status(400).json({ message: 'Erro interno do servidor' })
+        console.log(error)
+        return res.status(503).json({ message: 'Erro interno do servidor' })
     }
 }
 
 const deleteCharges = async (req, res) => {
-    const { id_cobranca } = req.params;
+    const { id } = req.params;
 
     try {
 
-        let charge = await knex('cobrancas').where({ id_cobranca }).first()
+        let charge = await knex('cobrancas').where('id_cobranca', id).first()
 
         if (!charge) {
             return res.status(400).json({ message: 'Cobrança não existe' })
@@ -168,7 +187,7 @@ const deleteCharges = async (req, res) => {
             return res.status(400).json({ message: 'Cobrança paga não pode ser excluída' })
         }
 
-        const deleteCharge = await knex('cobrancas').where({ id_cobranca }).del()
+        const deleteCharge = await knex('cobrancas').where('id_cobranca', id).del()
 
         if (!deleteCharge) {
             return res.status(400).json({ message: 'Esta cobrança não pode ser excluida' })
@@ -178,9 +197,8 @@ const deleteCharges = async (req, res) => {
 
 
     } catch (error) {
-        return res.status(400).json({ message: 'Erro interno do servidor' })
+        return res.status(504).json({ message: 'Erro interno do servidor' })
     }
-
 }
 
 module.exports = {
