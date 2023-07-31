@@ -1,12 +1,16 @@
 const Joi = require("joi");
 
 const SchemesRegister = Joi.object({
-  nome: Joi.string().required().min(3).pattern(/^[\p{L}][\p{L}\s]{2,}$/u).messages({
-    "any.required": "O campo nome é obrigatório",
-    "string.empty": "O campo nome é obrigatório",
-    "string.base": "Campo nome inválido",
-    "string.pattern.base": "Campo nome inválido"
-  }),
+  nome: Joi.string()
+    .required()
+    .min(3)
+    .pattern(/^[\p{L}][\p{L}\s]{2,}$/u)
+    .messages({
+      "any.required": "O campo nome é obrigatório",
+      "string.empty": "O campo nome é obrigatório",
+      "string.base": "Campo nome inválido",
+      "string.pattern.base": "Campo nome inválido",
+    }),
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .required()
@@ -85,40 +89,22 @@ const SchemesClients = Joi.object({
     "string.empty": "Telefone é obrigatório",
     "string.base": "O campo telefone precisa ser uma string",
     "string.min": "O telefone deve no mínimo 10 caracteres",
-    "string.max": "O telefone deve ter no máximo 11 caracteres"
+    "string.max": "O telefone deve ter no máximo 11 caracteres",
   }),
 
-  cep: Joi.string().messages({
-    "string.empty": "Informe um cep válido!",
-    "string.base": "O campo cep precisa ser uma string",
-  }),
+  cep: Joi.string().allow(null).allow(""),
 
-  logradouro: Joi.string().messages({
-    "string.base": "O campo logradouro precisa ser uma string"
-  }),
+  logradouro: Joi.string().allow(null).allow(""),
 
-  complemento: Joi.string().messages({
-    "string.base": "O campo complemento precisa ser uma string"
-  }),
+  complemento: Joi.string().allow(null).allow(""),
 
-  bairro: Joi.string().messages({
-    "string.base": "O campo bairro precisa ser uma string",
-  }),
+  bairro: Joi.string().allow(null).allow(""),
 
-  cidade: Joi.string().messages({
-    "string.empty": "Informe uma cidade válida!",
-    "string.base": "O campo cidade precisa ser uma string",
-  }),
+  cidade: Joi.string().allow(null).allow(""),
 
-  estado: Joi.string().messages({
-    "string.empty": "Informe um estado válido!",
-    "string.base": "O campo estado precisa ser uma string",
-  }),
+  estado: Joi.string().allow(null).allow(""),
 
-  status: Joi.string().messages({
-    "string.empty": "Estatus inválido!",
-    "string.base": "O campo status precisa ser uma string",
-  }),
+  status: Joi.string().allow(null).allow(""),
 });
 
 const SchemesValidateEmail = Joi.object({
