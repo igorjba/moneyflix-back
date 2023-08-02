@@ -7,17 +7,17 @@ const updateClient = async (req, res) => {
 
     try {
         const checkemail = await knex('clientes').where({ email }).first();
-
+        console.log(checkemail)
         if (checkemail) {
-            if(checkemail.id_cliente !== id){
+            if(checkemail.id_cliente !== +id){
                 return res.status(400).json({ message: "E-email já cadastrado!" });
             }
         }
-
+        
         const checkCpf = await knex('clientes').where({ cpf }).first();
-
+        
         if (checkCpf) {
-            if(checkCpf.id_cliente !== id){
+            if(checkCpf.id_cliente !== +id){
                 return res.status(400).json({ message: "CPF já cadastrado!" });
             }
         }
