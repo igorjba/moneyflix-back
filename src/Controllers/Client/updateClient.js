@@ -1,11 +1,11 @@
 const knex = require('../../Config/database');
 
 const updateClient = async (req, res) => {
-    const { nome, email, telefone, cep, logradouro, complemento, bairro, cidade, estado, status } = req.body;
+    const { nome, email, telefone, cep, logradouro, complemento, bairro, cidade, estado, status, cpf } = req.body;
     const { id } = req.params;
     let dataForUpdateClient = {}
 
-    try {    
+    try {
         const checkemail = await knex('clientes').where({ email }).first();
 
         if (checkemail) {
@@ -46,13 +46,13 @@ const updateClient = async (req, res) => {
             dataForUpdateClient = { ...dataForUpdateClient, status }
         }
 
-        await knex('clientes').update(dataForUpdateClient).where({id_cliente: id});
+        await knex('clientes').update(dataForUpdateClient).where({ id_cliente: id });
 
-        return res.status(201).json({message: "Cliente atualizado com sucesso!"})
+        return res.status(201).json({ message: "Cliente atualizado com sucesso!" })
 
     } catch (error) {
-        console.log(error)
-        return res.status(400).json({message: error.message});
+
+        return res.status(400).json({ message: error.message });
     }
 }
 
