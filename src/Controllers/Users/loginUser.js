@@ -1,18 +1,16 @@
 const knex = require("../../Config/database");
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const passJWT = process.env.passJWT;
 
 const loginUser = async (req, res) => {
-
-  const { email, senha } = req.body
+  const { email, senha } = req.body;
 
   try {
-
-    const user = await knex('usuarios').where({ email }).first()
+    const user = await knex("usuarios").where({ email }).first();
 
     if (!user) {
-      return res.status(400).json({ message: 'E-mail ou senha inválidos.' });
+      return res.status(400).json({ message: "E-mail ou senha inválidos." });
     }
 
     const { senha: senhaDoUsuario, ...usuarioLogado } = user;
@@ -20,18 +18,17 @@ const loginUser = async (req, res) => {
     const passwordInvalid = await bcrypt.compare(senha, senhaDoUsuario);
 
     if (!passwordInvalid) {
-      return res.status(400).json({ message: 'E-mail ou senha inválidos.' })
+      return res.status(400).json({ message: "E-mail ou senha inválidos." });
     }
 
-    const token = jwt.sign({ id: usuarioLogado.id_usuario }, passJWT, { expiresIn: '8h' });
+    const token = jwt.sign({ id: usuarioLogado.id_usuario }, passJWT, {
+      expiresIn: "8h",
+    });
 
-
-    return res.json({ user: usuarioLogado, token });
-
+    return res.json({ message: "usuario logado com sucesso", token });
   } catch (error) {
-
-    return res.status(510).json({ message: 'Erro interno do servidor' })
+    return res.status(510).json({ message: "Erro interno do servidor" });
   }
-}
+};
 
 module.exports = { loginUser };
