@@ -1,20 +1,25 @@
 const knex = require('../../Config/database');
 
 const updateClient = async (req, res) => {
-    const { nome, email, telefone, cep, logradouro, complemento, bairro, cidade, estado, status, cpf } = req.body;
+    const { nome, email, cpf, telefone, cep, logradouro, complemento, bairro, cidade, estado, status } = req.body;
     const { id } = req.params;
     let dataForUpdateClient = {}
 
     try {
         const checkemail = await knex('clientes').where({ email }).first();
-
+        console.log(checkemail)
         if (checkemail) {
-            return res.status(400).json({ message: "E-email já cadastrado!" });
+            if(checkemail.id_cliente !== +id){
+                return res.status(400).json({ message: "E-email já cadastrado!" });
+            }
         }
+        
         const checkCpf = await knex('clientes').where({ cpf }).first();
-
+        
         if (checkCpf) {
-            return res.status(400).json({ message: "CPF já cadastrado!" });
+            if(checkCpf.id_cliente !== +id){
+                return res.status(400).json({ message: "CPF já cadastrado!" });
+            }
         }
 
         dataForUpdateClient = {
