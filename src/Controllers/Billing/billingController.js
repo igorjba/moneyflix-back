@@ -74,8 +74,14 @@ const updateCharges = async (req, res) => {
         .select("*")
         .where({ id_cliente: id })
         .update({ status: "Inadimplente" });
-    } else if (status === "Vencida" && overdueParse >= currentDate) {
+
+    } else if (status === "Vencida" && overdueParse >= currentDate || status === "Paga") {
       status = "Pendente";
+
+      await knex("clientes")
+        .select("*")
+        .where({ id_cliente: id })
+        .update({ status: "Em dia" });
     }
 
     const editedData = await knex("cobrancas")
