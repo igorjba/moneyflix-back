@@ -62,13 +62,9 @@ const updateUser = async (req, res) => {
     } else {
       return res.status(400).json({ message: "Digite a senha Atual!" });
     }
-    if (cpf) { updatedUserData.cpf = cpf; } else if (!cpf) {
-      return res.status(400).json({ message: "CPF é obrigatorio" });
-    }
+    if (cpf) updatedUserData.cpf = cpf;
 
-    if (!telefone) {
-      return res.status(400).json({ message: "Telefone é obrigatorio" });
-    } else if (telefone) {
+    if (telefone) {
       String(telefone)
       if (telefone.length === 11 || telefone.length === 10) {
         updatedUserData.telefone = telefone;
