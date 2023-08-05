@@ -94,12 +94,9 @@ Esta é a rota que permite o usuário cadastrado realizar o login no sistema.
 //sucess
 {
     "user":
-     {
+           {
 		"id_usuario": 65,
-		"nome_usuario": "pedro teste",
-		"email": "pedroteste@email.com",
-		"cpf": "12345678095",
-		"telefone": null
+		"nome_usuario": "pedro teste"
 	   },
 	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjUsImlhdCI6MTY5MDQ2NzQ4MSwiZXhwIjoxNjkwNDk2MjgxfQ.dvPdf3Q8UcRzLP0kbP7EExMJXFeIdAc-GNhafWU3yhk"
 
