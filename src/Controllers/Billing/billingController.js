@@ -168,7 +168,6 @@ const listCharges = async (req, res) => {
 
     return res.status(200).json(updateBilling);
   } catch (error) {
-    console.log(error);
     return res.status(503).json({ message: "Erro interno do servidor" });
   }
 };
