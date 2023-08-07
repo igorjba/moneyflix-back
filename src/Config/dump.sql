@@ -32,9 +32,6 @@ CREATE TABLE clientes (
 
  update clientes from id_cliente set status = 'Inadimplente';
 
-
-
-
 drop table if exists cobrancas;
 
 CREATE TABLE cobrancas (
