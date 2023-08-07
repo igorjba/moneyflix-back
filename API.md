@@ -921,6 +921,10 @@ Esta é a rota que permite excluir uma cobrança.
 
 <details>
 
+<summary>4° Sprint</summmary>
+</details>
+
+
 <summary><b>Detalhar Cobrança</b></summary>
 
 #### `GET` `/cobranca/:id`
@@ -1153,3 +1157,4 @@ Esta é a rota que permite listar todas as cobranças inadimplentes.
 </details>
 
 ---
+

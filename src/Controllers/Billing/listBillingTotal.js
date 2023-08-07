@@ -85,4 +85,21 @@ const listBillingTotal = async (req, res) => {
   return res.status(200).json(summaryTotal);
 };
 
-module.exports = listBillingTotal;
+const detailBilling = async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const charge = await knex('cobrancas').where('id_cobranca', id).first()
+
+    if (!charge) return res.status(400).json({ message: 'Cobrança não existe' })
+
+    const { nome_cliente } = await knex('clientes').where('id_cliente', charge.id_cliente).first()
+
+    return res.status(200).json({ charge, nome_cliente })
+
+  } catch (error) {
+    return res.status(502).json(error.message)
+  }
+}
+
+module.exports = { listBillingTotal, detailBilling }
