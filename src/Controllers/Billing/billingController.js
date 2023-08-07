@@ -98,7 +98,7 @@ const updateCharges = async (req, res) => {
 };
 
 const listCharges = async (req, res) => {
-  const { status, data, cliente, id } = req.body;
+  const { status, data, cliente, id } = req.query;
 
   try {
     const charges = await knex("cobrancas");
