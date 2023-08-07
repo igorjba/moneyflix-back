@@ -565,7 +565,7 @@ Esta é a rota que permite o usuário cadastrar um cliente.
 ### **Cliente** 
 
 <details>
-<summary><b>Listar Cliente</b></summary>
+<summary><b>Listar Clientes</b></summary>
 
 #### `GET` `/cliente`
 
@@ -644,14 +644,14 @@ Estaa é a rota que permite listar todos os clientes cadastrados.
 <details>
 <summary><b>Detalhar Cliente</b></summary>
 
-#### `POST` `/cliente/:id`
+#### `GET` `/cliente/:id`
 
 Essa é a rota que retorna informações de um cliente.
 
 #### **Exemplo de requisição**
 
 ```javascript
-// POST /cliente/:id
+// GET /cliente/:id
 ```
 
 #### **Exemplos de resposta**
@@ -661,7 +661,7 @@ Essa é a rota que retorna informações de um cliente.
 {
   { message: "Cliente não encontrado!" }
 }
-//sucess
+//**sucess**
 "client": [
 		{
 			"id_cliente": 48,
@@ -841,10 +841,315 @@ Esta é a rota que permite listar todas as cobranças.
 ---
 </details>
 
+
 <details>
-<summary>3° Sprint</summmary>
+<summary>3° Sprint</summary>
+
+### **Cobrança** 
+
+<details>
+<summary><b>Editar Cobrança</b></summary>
+
+#### `PUT` `/cobranca/editar/:id`
+
+Esta é a rota que permite editar uma cobrança.
+
+#### **Exemplo de requisição**
+
+```javascript
+// PUT /cobranca/editar/:id
+{
+ "valor": 3000
+}
+
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+  { message: "Este campo deve ser preenchido" }
+  { message: "Cobrança não cadastrada" }
+  { message: 'Cobrança não foi alterada' }
+}
+//sucess
+{
+  { message: 'Cobrança alterada com sucesso!' }
+}
+```
 </details>
 
 <details>
-<summary>4° Sprint</summmary>
+<summary><b>Excluir Cobrança</b></summary>
+
+#### `DELETE` `/cobranca/delete/:id`
+
+Esta é a rota que permite excluir uma cobrança.
+
+#### **Exemplo de requisição**
+
+```javascript
+// DELETE /cobranca/delete/:id
+//header
+{
+  headers: {        
+    authorization: token,
+  }
+}
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+  { message: "Não autorizado" }
+  { message: "token expirado" }
+  { message: "Cobrança não existe" }
+  { message: "Cobrança vencida não podera ser excluida" }
+  { message: "Cobrança paga não pode ser excluída" }
+  { message: "Esta cobrança não pode ser excluida" }
+}
+
+//sucess
+{
+  { message: "Cobrança excluída com sucesso!" }
+}
+```
 </details>
+
+<details>
+
+<summary><b>Detalhar Cobrança</b></summary>
+
+#### `GET` `/cobranca/:id`
+
+Esta é a rota que permite detalhar uma cobrança.
+
+#### **Exemplo de requisição**
+
+```javascript
+// GET /cobranca/:id
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+  { message: 'Cobrança não existe' }
+  { message: 'Cliente não existe' }
+}
+
+//sucess
+{
+	"charge": {
+		"id_cobranca": 3,
+		"id_usuario": null,
+		"id_cliente": 1,
+		"descricao": "boleto",
+		"valor": "1000",
+		"vencimento": "2023-07-24T03:00:00.000Z",
+		"status": "Vencida"
+	},
+	"nome_cliente": "BKing"
+}
+```
+
+</details>
+
+
+### **Cobrança/Cliente** 
+
+<details>
+<summary><b>Buscar e Ordenção</b></summary>
+
+#### `GET` `/cliente?search=BKing`
+
+Esta é a rota que permite buscar um cliente.
+
+#### **Exemplo de requisição**
+
+```javascript
+// GET /cliente?search=BKing
+//header
+{
+  headers: {        
+    authorization: token,
+  }
+}
+
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+  {message: "Nenhum cliente encontrado!"}
+}
+//sucess
+{
+  
+}
+```
+</details>
+
+<details>
+<summary><b>Botão "ver todos" </b></summary>
+
+#### `GET` `/cobranca/vencidas`
+
+Esta é a rota que permite listar todas as cobranças vencidas.
+
+#### **Exemplo de requisição**
+
+```javascript
+// GET /cobranca/vencidas
+//header
+{
+  headers: {        
+    authorization: token,
+  }
+}
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+ 
+}
+
+//sucess
+{
+ 
+}
+```
+
+
+#### `GET` `/cobranca/pendentes`
+
+Esta é a rota que permite listar todas as cobranças pendentes.
+
+#### **Exemplo de requisição**
+
+```javascript
+// GET /cobranca/pendentes
+//header
+{
+  headers: {        
+    authorization: token,
+  }
+}
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+ 
+}
+
+//sucess
+{
+ 
+}
+```
+
+#### `GET` `/cobranca/pagas`
+
+Esta é a rota que permite listar todas as cobranças pagas.
+
+#### **Exemplo de requisição**
+
+```javascript
+// GET /cobranca/pagas
+//header
+{
+  headers: {        
+    authorization: token,
+  }
+}
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+ 
+}
+
+//sucess
+{
+ 
+}
+```
+
+#### `GET` `/cobranca/emdia`
+
+Esta é a rota que permite listar todas as cobranças em dia.
+
+#### **Exemplo de requisição**
+
+```javascript
+// GET /cobranca/emdia
+//header
+{
+  headers: {        
+    authorization: token,
+  }
+}
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+ 
+}
+
+//sucess
+{
+ 
+}
+```
+
+
+#### `GET` `/cobranca/inadimplentes`
+
+Esta é a rota que permite listar todas as cobranças inadimplentes.
+
+#### **Exemplo de requisição**
+
+```javascript
+// GET /cobranca/inadimplentes
+//header
+{
+  headers: {        
+    authorization: token,
+  }
+}
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+ 
+}
+
+//sucess
+{
+ 
+}
+```
+</details>
+
+---
