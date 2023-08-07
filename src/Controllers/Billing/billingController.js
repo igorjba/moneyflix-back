@@ -82,6 +82,12 @@ const updateCharges = async (req, res) => {
         .select("*")
         .where({ id_cliente: id })
         .update({ status: "Em dia" });
+    } else if (status === "Paga") {
+
+      await knex("clientes")
+        .select("*")
+        .where({ id_cliente: id })
+        .update({ status: "Em dia" });
     }
 
     const editedData = await knex("cobrancas")
