@@ -565,7 +565,7 @@ Esta é a rota que permite o usuário cadastrar um cliente.
 ### **Cliente** 
 
 <details>
-<summary><b>Listar Cliente</b></summary>
+<summary><b>Listar Clientes</b></summary>
 
 #### `GET` `/cliente`
 
@@ -644,14 +644,14 @@ Estaa é a rota que permite listar todos os clientes cadastrados.
 <details>
 <summary><b>Detalhar Cliente</b></summary>
 
-#### `POST` `/cliente/:id`
+#### `GET` `/cliente/:id`
 
 Essa é a rota que retorna informações de um cliente.
 
 #### **Exemplo de requisição**
 
 ```javascript
-// POST /cliente/:id
+// GET /cliente/:id
 ```
 
 #### **Exemplos de resposta**
@@ -661,7 +661,7 @@ Essa é a rota que retorna informações de um cliente.
 {
   { message: "Cliente não encontrado!" }
 }
-//sucess
+//**sucess**
 "client": [
 		{
 			"id_cliente": 48,
@@ -841,12 +841,20 @@ Esta é a rota que permite listar todas as cobranças.
 ---
 </details>
 
+
 <details>
 <summary>3° Sprint</summary>
 
 ### **Cobrança** 
 
 <details>
+
+<summary>3° Sprint</summary>
+
+### **Cobrança** 
+
+<details>
+
 <summary><b>Editar Cobrança</b></summary>
 
 #### `PUT` `/cobranca/editar/:id`
@@ -1042,7 +1050,9 @@ Esta é a rota que permite listar todas as cobranças vencidas.
 #### **Exemplo de requisição**
 
 ```javascript
+
 // GET /cobranca/vencidas
+
 //header
 {
   headers: {        
@@ -1057,11 +1067,11 @@ Esta é a rota que permite listar todas as cobranças vencidas.
 //error
 {
   { message: "Não autorizado" }
+
 }
 
 //sucess
 {
- 	{
 		"id_cobranca": 19,
 		"id_usuario": null,
 		"id_cliente": 1,

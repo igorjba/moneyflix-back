@@ -16,7 +16,6 @@ const registerCharges = async (req, res) => {
     if (!clientExists) {
       return res.status(400).json({ message: "Cliente não encontrado" });
     }
-
     const charges = await knex("cobrancas")
       .insert({
         id_cliente: id,
@@ -30,7 +29,6 @@ const registerCharges = async (req, res) => {
     if (!charges) {
       return res.status(400).json({ message: "Cobrança não foi cadastrada" });
     }
-
     if (
       charges[0].status === "Pendente" &&
       charges[0].vencimento < currentDate
@@ -70,18 +68,8 @@ const updateCharges = async (req, res) => {
     if (status === "Pendente" && overdueParse < currentDate) {
       status = "Vencida";
 
-      await knex("clientes")
-        .select("*")
-        .where({ id_cliente: id })
-        .update({ status: "Inadimplente" });
-
-    } else if (status === "Vencida" && overdueParse >= currentDate || status === "Paga") {
+    } else if (status === "Vencida" && overdueParse >= currentDate) {
       status = "Pendente";
-
-      await knex("clientes")
-        .select("*")
-        .where({ id_cliente: id })
-        .update({ status: "Em dia" });
     }
 
     const editedData = await knex("cobrancas")
@@ -91,6 +79,19 @@ const updateCharges = async (req, res) => {
     if (!editedData) {
       return res.status(400).json({ message: "Cobrança não foi alterada" });
     }
+
+    const overdueCharges = await knex('cobrancas')
+      .where('id_cliente', charges.id_cliente)
+      .where('status', 'Vencida')
+      .first()
+
+    let clientStatus = overdueCharges ? "Inadimplente" : "Em dia";
+
+    await knex("clientes")
+      .update({ status: clientStatus })
+      .where('id_cliente', charges.id_cliente)
+
+
     return res.status(200).json({ message: "Cobrança alterada com sucesso!" });
   } catch (error) {
     return res.status(502).json({ message: "Erro interno do servidor" });
@@ -98,7 +99,7 @@ const updateCharges = async (req, res) => {
 };
 
 const listCharges = async (req, res) => {
-  const { status, data, cliente, id } = req.body;
+  const { status, data, cliente, id } = req.query;
 
   try {
     const charges = await knex("cobrancas");
@@ -168,7 +169,6 @@ const listCharges = async (req, res) => {
 
     return res.status(200).json(updateBilling);
   } catch (error) {
-    console.log(error);
     return res.status(503).json({ message: "Erro interno do servidor" });
   }
 };

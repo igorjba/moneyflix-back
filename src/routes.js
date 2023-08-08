@@ -65,13 +65,14 @@ route.put("/cobranca/editar/:id", validadeBody(SchemesCharges), updateCharges);
 route.get("/cobranca", verifyLogin, listCharges);
 route.delete("/cobranca/delete/:id", verifyLogin, deleteCharges);
 
-route.get("/cobranca/:id", detailBilling)
+
 route.get("/cobranca/total", verifyLogin, filterStatusCharges);
 route.get("/cobranca/vencidas", verifyLogin, summaryOverdue);
 route.get("/cobranca/pendentes", verifyLogin, summaryPending);
 route.get("/cobranca/pagas", verifyLogin, summaryPaid);
 route.get("/cobranca/emdia", verifyLogin, summaryInDay);
 route.get("/cobranca/inadimplentes", verifyLogin, summaryDefaulters);
+route.get("/cobranca/:id", verifyLogin, detailBilling)
 
 route.get("/cliente", verifyLogin, listClient);
 route.get("/cliente/:id", detailClient);
