@@ -848,6 +848,13 @@ Esta é a rota que permite listar todas as cobranças.
 ### **Cobrança** 
 
 <details>
+
+<summary>3° Sprint</summary>
+
+### **Cobrança** 
+
+<details>
+
 <summary><b>Editar Cobrança</b></summary>
 
 #### `PUT` `/cobranca/editar/:id`
@@ -921,10 +928,6 @@ Esta é a rota que permite excluir uma cobrança.
 
 <details>
 
-<summary>4° Sprint</summmary>
-</details>
-
-
 <summary><b>Detalhar Cobrança</b></summary>
 
 #### `GET` `/cobranca/:id`
@@ -969,6 +972,8 @@ Esta é a rota que permite detalhar uma cobrança.
 <details>
 <summary><b>Buscar e Ordenção</b></summary>
 
+#### **Cliente**
+
 #### `GET` `/cliente?search=BKing`
 
 Esta é a rota que permite buscar um cliente.
@@ -998,6 +1003,41 @@ Esta é a rota que permite buscar um cliente.
   
 }
 ```
+
+#### **Cobrança**
+
+##### **Buscar por Cliente**
+
+#### `GET` `/cobranca?cliente=""`
+
+Esta é a rota que permite buscar um cliente.
+
+#### **Exemplo de requisição**
+
+```javascript
+// GET /cliente?search=BKing
+//header
+{
+  headers: {        
+    authorization: token,
+  }
+}
+
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+  {message: "Nenhum cliente encontrado!"}
+}
+//sucess
+{
+  
+}
+```
+
 </details>
 
 <details>
@@ -1010,7 +1050,9 @@ Esta é a rota que permite listar todas as cobranças vencidas.
 #### **Exemplo de requisição**
 
 ```javascript
+
 // GET /cobranca/vencidas
+
 //header
 {
   headers: {        
@@ -1024,12 +1066,31 @@ Esta é a rota que permite listar todas as cobranças vencidas.
 ```javascript
 //error
 {
- 
+  { message: "Não autorizado" }
+
 }
 
 //sucess
 {
- 
+		"id_cobranca": 19,
+		"id_usuario": null,
+		"id_cliente": 1,
+		"descricao": "boleto",
+		"valor": "1000",
+		"vencimento": "2023-07-28T03:00:00.000Z",
+		"status": "Vencida",
+		"cliente": "BKing"
+	},
+	{
+		"id_cobranca": 20,
+		"id_usuario": null,
+		"id_cliente": 1,
+		"descricao": "boleto",
+		"valor": "1000",
+		"vencimento": "2023-07-28T03:00:00.000Z",
+		"status": "Vencida",
+		"cliente": "BKing"
+	}
 }
 ```
 
@@ -1055,12 +1116,31 @@ Esta é a rota que permite listar todas as cobranças pendentes.
 ```javascript
 //error
 {
- 
+ { message: "Não autorizado" }
 }
 
 //sucess
 {
- 
+  {
+		"id_cobranca": 5,
+		"id_usuario": null,
+		"id_cliente": 1,
+		"descricao": "boleto",
+		"valor": "1000",
+		"vencimento": "2023-07-30T03:00:00.000Z",
+		"status": "Pendente",
+		"cliente": "BKing"
+	},
+		{
+		"id_cobranca": 18,
+		"id_usuario": null,
+		"id_cliente": 1,
+		"descricao": "boleto",
+		"valor": "7000",
+		"vencimento": "2023-07-27T03:00:00.000Z",
+		"status": "Pendente",
+		"cliente": "BKing"
+	}
 }
 ```
 
@@ -1085,12 +1165,31 @@ Esta é a rota que permite listar todas as cobranças pagas.
 ```javascript
 //error
 {
- 
+ { message: "Não autorizado" }
 }
 
 //sucess
 {
- 
+  {
+		"id_cobranca": 5,
+		"id_usuario": null,
+		"id_cliente": 1,
+		"descricao": "boleto",
+		"valor": "1000",
+		"vencimento": "2023-07-30T03:00:00.000Z",
+		"status": "Paga",
+		"cliente": "BKing"
+	},
+		{
+		"id_cobranca": 18,
+		"id_usuario": null,
+		"id_cliente": 1,
+		"descricao": "boleto",
+		"valor": "7000",
+		"vencimento": "2023-07-27T03:00:00.000Z",
+		"status": "Paga",
+		"cliente": "BKing"
+	}
 }
 ```
 
@@ -1115,12 +1214,31 @@ Esta é a rota que permite listar todas as cobranças em dia.
 ```javascript
 //error
 {
- 
+ { message: "Não autorizado" }
 }
 
 //sucess
 {
- 
+  {
+		"id_cobranca": 5,
+		"id_usuario": null,
+		"id_cliente": 1,
+		"descricao": "boleto",
+		"valor": "1000",
+		"vencimento": "2023-07-30T03:00:00.000Z",
+		"status": "Em dia",
+		"cliente": "BKing"
+	},
+		{
+		"id_cobranca": 18,
+		"id_usuario": null,
+		"id_cliente": 1,
+		"descricao": "boleto",
+		"valor": "7000",
+		"vencimento": "2023-07-27T03:00:00.000Z",
+		"status": "Em dia",
+		"cliente": "BKing"
+	}
 }
 ```
 
@@ -1146,15 +1264,33 @@ Esta é a rota que permite listar todas as cobranças inadimplentes.
 ```javascript
 //error
 {
- 
+ { message: "Não autorizado" }
 }
 
 //sucess
 {
- 
+  {
+		"id_cobranca": 5,
+		"id_usuario": null,
+		"id_cliente": 1,
+		"descricao": "boleto",
+		"valor": "1000",
+		"vencimento": "2023-07-30T03:00:00.000Z",
+		"status": "Inadimplentes",
+		"cliente": "BKing"
+	},
+		{
+		"id_cobranca": 18,
+		"id_usuario": null,
+		"id_cliente": 1,
+		"descricao": "boleto",
+		"valor": "7000",
+		"vencimento": "2023-07-27T03:00:00.000Z",
+		"status": "Inadimplentes",
+		"cliente": "BKing"
+	}
 }
 ```
 </details>
 
 ---
-
