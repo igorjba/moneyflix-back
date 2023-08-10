@@ -10,7 +10,7 @@ const deleteClient = async (req, res) => {
             return res.status(404).json({ message: "Cliente não encontrado!" });
         }
 
-        await knex('clientes').del().where({id_cliente: id});
+        await knex('clientes').del().where({ id_cliente: id });
 
         return res.status(204).send();
 

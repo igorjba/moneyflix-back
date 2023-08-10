@@ -17,35 +17,35 @@ const registerNewClient = require("./Controllers/Client/registerClient");
 const detailClient = require("./Controllers/Client/detailsClient");
 const listClient = require("./Controllers/Client/listClient");
 const updateClient = require("./Controllers/Client/updateClient");
-const listBillingTotal = require("./Controllers/Billing/listBillingTotal");
+const { listBillingTotal, detailBilling } = require("./Controllers/Billing/listBillingTotal");
 
 const {
-  registerCharges,
-  updateCharges,
-  listCharges,
-  deleteCharges,
+    registerCharges,
+    updateCharges,
+    listCharges,
+    deleteCharges,
 } = require("./Controllers/Billing/billingController");
 const {
-  filterStatusCharges,
-  summaryOverdue,
-  summaryPending,
-  summaryPaid,
-  summaryInDay,
-  summaryDefaulters,
+    filterStatusCharges,
+    summaryOverdue,
+    summaryPending,
+    summaryPaid,
+    summaryInDay,
+    summaryDefaulters,
 } = require("./Controllers/Billing/listBillingController");
 
 const {
-  SchemesRegister,
-  SchemesLogin,
-  SchemesCharges,
-  SchemesClients,
-  SchemesValidateEmail,
+    SchemesRegister,
+    SchemesLogin,
+    SchemesCharges,
+    SchemesClients,
+    SchemesValidateEmail,
 } = require("./Schemes/index");
 
 const route = express();
 
 route.get("/", (req, res) => {
-  return res.status(200).send("ok");
+    return res.status(200).send("ok");
 });
 
 route.get("/usuario/painel", verifyLogin, listBillingTotal);
@@ -57,13 +57,14 @@ route.get("/usuario", verifyLogin, profile);
 route.put("/usuario/atualizar", verifyLogin, validateCpf, updateUser);
 
 route.post(
-  "/cobranca/cadastro/:id",
-  validadeBody(SchemesCharges),
-  registerCharges
+    "/cobranca/cadastro/:id",
+    validadeBody(SchemesCharges),
+    registerCharges
 );
 route.put("/cobranca/editar/:id", validadeBody(SchemesCharges), updateCharges);
 route.get("/cobranca", verifyLogin, listCharges);
 route.delete("/cobranca/delete/:id", verifyLogin, deleteCharges);
+
 
 route.get("/cobranca/total", verifyLogin, filterStatusCharges);
 route.get("/cobranca/vencidas", verifyLogin, summaryOverdue);
@@ -71,6 +72,7 @@ route.get("/cobranca/pendentes", verifyLogin, summaryPending);
 route.get("/cobranca/pagas", verifyLogin, summaryPaid);
 route.get("/cobranca/emdia", verifyLogin, summaryInDay);
 route.get("/cobranca/inadimplentes", verifyLogin, summaryDefaulters);
+route.get("/cobranca/:id", verifyLogin, detailBilling)
 
 route.get("/cliente", verifyLogin, listClient);
 route.get("/cliente/:id", detailClient);

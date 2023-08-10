@@ -25,7 +25,7 @@ const loginUser = async (req, res) => {
       expiresIn: "8h",
     });
 
-    return res.json({ message: "usuario logado com sucesso", token });
+    return res.json({ message: "Usuario logado com sucesso", token, id_usuario: usuarioLogado.id_usuario, nome_usuario: usuarioLogado.nome_usuario });
   } catch (error) {
     return res.status(510).json({ message: "Erro interno do servidor" });
   }

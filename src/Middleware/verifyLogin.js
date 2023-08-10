@@ -16,14 +16,14 @@ const verifyLogin = async (req, res, next) => {
     const userData = await knex("usuarios").where("id_usuario", id).first();
 
     if (userData.length === 0) {
-      return res.status(409).json({ message: "Não autorizado" });
+      return res.status(400).json({ message: "Não autorizado" });
     }
 
     req.user = userData;
 
     next();
   } catch (error) {
-    return res.status(514).json({ message: "Não autorizado" });
+    return res.status(401).json({ message: "token expirado" });
   }
 };
 

@@ -92,19 +92,19 @@ const SchemesClients = Joi.object({
     "string.max": "O telefone deve ter no máximo 11 caracteres",
   }),
 
-  cep: Joi.string().allow(null).allow(""),
+  cep: Joi.string().allow().allow(""),
 
-  logradouro: Joi.string().allow(null).allow(""),
+  logradouro: Joi.string().allow().allow(""),
 
-  complemento: Joi.string().allow(null).allow(""),
+  complemento: Joi.string().allow().allow(""),
 
-  bairro: Joi.string().allow(null).allow(""),
+  bairro: Joi.string().allow().allow(""),
 
-  cidade: Joi.string().allow(null).allow(""),
+  cidade: Joi.string().allow().allow(""),
 
-  estado: Joi.string().allow(null).allow(""),
+  estado: Joi.string().allow().allow(""),
 
-  status: Joi.string().allow(null).allow(""),
+  status: Joi.string().allow().allow(""),
 });
 
 const SchemesValidateEmail = Joi.object({

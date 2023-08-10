@@ -58,7 +58,6 @@ const registerNewClient = async (req, res) => {
         return res.status(201).json({ message: "Cliente adicionado com sucesso!" });
 
     } catch (error) {
-        console.log(error)
         return res.status(400).json({ message: error.message });
     }
 }
