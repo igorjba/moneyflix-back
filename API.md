@@ -972,43 +972,10 @@ Esta é a rota que permite detalhar uma cobrança.
 <details>
 <summary><b>Buscar e Ordenção</b></summary>
 
-#### **Cliente**
-
-#### `GET` `/cliente?search=BKing`
-
-Esta é a rota que permite buscar um cliente.
-
-#### **Exemplo de requisição**
-
-```javascript
-// GET /cliente?search=BKing
-//header
-{
-  headers: {        
-    authorization: token,
-  }
-}
-
-```
-
-#### **Exemplos de resposta**
-
-```javascript
-//error
-{
-  {message: "Nenhum cliente encontrado!"}
-}
-//sucess
-{
-  
-}
-```
-
-#### **Cobrança**
-
-##### **Buscar por Cliente**
-
-#### `GET` `/cobranca?cliente=""`
+<details>
+<summary>Clientes</summary>
+	
+#### `GET` `/cliente?search=lucas`
 
 Esta é a rota que permite buscar um cliente.
 
@@ -1030,13 +997,187 @@ Esta é a rota que permite buscar um cliente.
 ```javascript
 //error
 {
+  {message: "Não autorizado"}
   {message: "Nenhum cliente encontrado!"}
 }
 //sucess
-{
-  
-}
+[
+  {
+     "id_cliente":2,
+    "id_usuario":1,
+    "nome_cliente": "lucas",
+    "email": "lucas@test.com.br",
+    "cpf": "10438953029",
+    "telefone": "12345678912",
+    "cep": null,
+    "endereco": null,
+    "complemento": null,
+    "bairro": null,
+    "cidade": null,
+    "estado": null,
+    "status":"em dia" 
+  }
+]
 ```
+
+#### `GET` `/cliente?status=em`
+
+Esta é a rota que permite buscar um cliente por status.
+
+#### **Exemplo de requisição**
+
+```javascript
+// GET /cliente?status=em
+//header
+{
+  headers: {        
+    authorization: token,
+  }
+}
+
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+  {message: "Não autorizado"}
+  {message: "Nenhum cliente encontrado!"}
+}
+//sucess
+[
+  {
+     "id_cliente":3,
+    "id_usuario":1,
+    "nome_cliente": "marcos",
+    "email": "fut@test.com.br",
+    "cpf": "28773901016",
+    "telefone": "12345678912",
+    "cep": null,
+    "endereco": null,
+    "complemento": null,
+    "bairro": null,
+    "cidade": null,
+    "estado": null,
+    "status":"Em dia" 
+  },
+  {
+     "id_cliente":2,
+    "id_usuario":1,
+    "nome_cliente": "lucas",
+    "email": "lucas@test.com.br",
+    "cpf": "10438953029",
+    "telefone": "12345678912",
+    "cep": null,
+    "endereco": null,
+    "complemento": null,
+    "bairro": null,
+    "cidade": null,
+    "estado": null,
+    "status":"em dia" 
+  }
+]
+```
+
+
+#### `GET` `/cliente?search=02714638156`
+
+Esta é a rota que permite buscar um cliente por um cpf.
+
+#### **Exemplo de requisição**
+
+```javascript
+// GET /cliente?search=02714638156
+//header
+{
+  headers: {        
+    authorization: token,
+  }
+}
+
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+  {message: "Não autorizado"}
+  {message: "Nenhum cliente encontrado!"}
+}
+//sucess
+[
+  {
+     "id_cliente":1,
+    "id_usuario":1,
+    "nome_cliente": "Ryander",
+    "email": "ryander@test.com.br",
+    "cpf": "02714638156",
+    "telefone": "12345678912",
+    "cep": null,
+    "endereco": null,
+    "complemento": null,
+    "bairro": null,
+    "cidade": null,
+    "estado": null,
+    "status":"Em dia" 
+  }
+]
+```
+
+#### `GET` `/cliente?search=fut@test`
+
+Esta é a rota que permite buscar um cliente por um e-mail.
+
+#### **Exemplo de requisição**
+
+```javascript
+
+// GET /cliente?search=fut@test
+
+//header
+{
+  headers: {        
+    authorization: token,
+  }
+}
+
+```
+
+#### **Exemplos de resposta**
+
+```javascript
+//error
+{
+
+  {message: "Não autorizado"}
+  {message: "Nenhum cliente encontrado!"}
+}
+//sucess
+[
+  {
+     "id_cliente":3,
+    "id_usuario":1,
+    "nome_cliente": "marcos",
+    "email": "fut@test.com.br",
+    "cpf": "28773901016",
+    "telefone": "12345678912",
+    "cep": null,
+    "endereco": null,
+    "complemento": null,
+    "bairro": null,
+    "cidade": null,
+    "estado": null,
+    "status":"Em dia" 
+  }
+]
+```
+</details>
+
+<details>
+<summary>Cobrança</summary>
+</details>	
 
 </details>
 
