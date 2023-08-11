@@ -34,7 +34,7 @@ const registerNewClient = async (req, res) => {
     const checkemail = await knex("clientes").where({ email }).first();
 
     if (checkemail) {
-      return res.status(400).json({ message: "E-email já cadastrado!" });
+      return res.status(400).json({ message: "E-mail já cadastrado!" });
     }
     const checkCpf = await knex("clientes").where({ cpf }).first();
 
