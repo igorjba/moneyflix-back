@@ -9,6 +9,22 @@ const detailClient = async (req, res) => {
       .where({ id_cliente: id })
       .returning("*");
 
+    const charges = await knex("cobrancas");
+    for (let charge of charges) {
+      if (charge.status === "Pendente" && ++charge.vencimento < currentDate) {
+        charge.status = await knex("cobrancas")
+          .where("id_cobranca", charge.id_cobranca)
+          .update({ status: "Vencida" });
+      } else if (
+        charge.status === "Vencida" &&
+        ++charge.vencimento >= currentDate
+      ) {
+        charge.status = await knex("cobrancas")
+          .where("id_cobranca", charge.id_cobranca)
+          .update({ status: "Pendente" });
+      }
+    }
+
     const billing = await knex("cobrancas")
       .leftJoin("clientes", "clientes.id_cliente", "cobrancas.id_cliente")
       .where("cobrancas.id_cliente", id)
