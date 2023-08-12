@@ -1,5 +1,23 @@
 const knex = require("../../Config/database");
 
+const updateChargeStatus = async (chargeId, chargeStatus) => {
+  await knex("cobrancas").where("id_cobranca", chargeId).update({
+    status: chargeStatus,
+  });
+};
+const updateCharges = async (charges, currentDate) => {
+  for (let charge of charges) {
+    if (charge.status === "Pendente" && charge.vencimento < currentDate) {
+      await updateChargeStatus(charge.id_cobranca, "Vencida");
+    } else if (
+      charge.status === "Vencida" &&
+      charge.vencimento >= currentDate
+    ) {
+      await updateChargeStatus(charge.id_cobranca, "Pendente");
+    }
+  }
+};
+
 const detailClient = async (req, res) => {
   const { id } = req.params;
 
@@ -8,6 +26,10 @@ const detailClient = async (req, res) => {
       .select("*")
       .where({ id_cliente: id })
       .returning("*");
+
+    const currentDate = new Date().setHours(0, 0, 0, 0, 0);
+    const charges = await knex("cobrancas").where("id_cliente", id);
+    await updateCharges(charges, currentDate);
 
     const billing = await knex("cobrancas")
       .leftJoin("clientes", "clientes.id_cliente", "cobrancas.id_cliente")
@@ -32,7 +54,6 @@ const detailClient = async (req, res) => {
 
     return res.status(200).json(detailsClient);
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ message: "Erro interno do servidor!" });
   }
 };
