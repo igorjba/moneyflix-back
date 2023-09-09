@@ -1,130 +1,63 @@
-# Documentação da API para Integração
+# Moneyflix
 
-## URL da API
+**Moneyflix** é uma aplicação de gerenciamento financeiro que permite aos usuários manterem um controle detalhado de suas finanças pessoais. O projeto foi desenvolvido em duas partes: frontend e backend.
 
-```javascript=
-https://lazy-rose-moth-tam.cyclic.app/
-```
+- [Repositório Frontend](https://github.com/igorjba/moneyflix-front)
+- [Repositório Backend](https://github.com/igorjba/moneyflix-back)
+- [Demonstração](https://moneyflix-front.vercel.app/)
 
-## **Endpoints**
----
-### **Cadastrar usuário**
-#### `POST` `/usuario`
+## Frontend
 
-Essa é a rota que será utilizada para cadastrar um novo usuario no sistema.
+Desenvolvido utilizando React, o frontend proporciona uma interface amigável para os usuários gerenciarem suas transações e visualizarem relatórios detalhados.
 
-#### **Exemplo de requisição**
+### Principais Características:
 
-```javascript
-// POST /usuario
-{
-    "nome": "Isamara",
-    "email": "isamara@email.com",
-    "senha": "123456"
-}
-```
+- Cadastro de usuários.
+- Gestão de transações.
+- Resumos financeiros e relatórios detalhados.
+- Design responsivo e interativo.
 
-#### **Exemplos de resposta**
+### Tecnologias Utilizadas:
 
-```javascript
-//error
-{
-    { message: "E-email já cadastrado" }
-}
-//sucess
-{
-    { message: 'Cadastro realizado com sucesso' }
-}
-```
+- React
+- Axios
+- react-router-dom
+- Vite
+- react-toastify
 
----
-### **Login do usuário**
+### Instalação e Uso:
 
-#### `POST` `/login`
+1. Clone o repositório: `git clone https://github.com/igorjba/moneyflix-front.git`
+2. Entre no diretório do projeto: `cd moneyflix-front`
+3. Instale as dependências: `npm install`
+4. Inicie o servidor de desenvolvimento: `npm run dev`
 
-Essa é a rota que permite o usuario cadastrado realizar o login no sistema.
+## Backend
 
-#### **Exemplo de requisição**
+Desenvolvido com Node.js e Express, o backend gerencia a lógica por trás da aplicação, tratando dados, autenticações e interações com o banco de dados.
 
-```javascript
-// POST /login
-{
-    "email": "isamara@email.com",
-    "senha": "123456"
-}
-```
+### Principais Características:
 
-#### **Exemplos de resposta**
+- Autenticação de usuários.
+- CRUD de transações.
+- Interação com banco de dados PostgreSQL.
 
-```javascript
-//error
-{
-{ message: "E-mail ou senha inválidos" }
-}
+### Tecnologias Utilizadas:
 
-//sucess
-{
-    "usuario": {
-        "id": 1,
-        "nome": "Isamara",
-        "email": "isamara@email.com"
-    },
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjIzMjQ5NjIxLCJleHAiOjE2MjMyNzg0MjF9.KLR9t7m_JQJfpuRv9_8H2-XJ92TSjKhGPxJXVfX6wBI"
-}
-```
+- Express
+- PostgreSQL (pg e knex)
+- JSON Web Token (jsonwebtoken)
+- bcrypt
+- joi
 
----
+### Instalação e Uso:
 
-### **Atualizar Usuario**
+1. Clone o repositório: `git clone https://github.com/igorjba/moneyflix-back.git`
+2. Entre no diretório do projeto: `cd moneyflix-back`
+3. Instale as dependências: `npm install`
+4. Configure o `.env` com suas variáveis de ambiente.
+5. Inicie o servidor: `npm run dev`
 
-#### `PUT` `/user/update`
+## Demonstração
 
-Essa é a rota que permite o usuario cadastrado atualizar informações do próprio usuário.
-
-#### **Exemplo de requisição**
-
-```javascript
-// PUT /user/update
-{
-    "email": "isamara123@email.com"
-}
-```
-OU (qualquer outro campo)
-```javascript
-// PUT /user/update
-{
-    "nome": Isamara Pereira"
-}
-```
-
-#### **Exemplos de resposta**
-
-```javascript
-//error
-{
-{ message: "Os campos nome e email são obrigatórios!" }
-}
-
-{
-{message: "Para alterar a senha, as duas senhas têm que ser iguais"}
-}
-
-//sucess (usuario atualizado)
-{
-    "id_usuario": 30,
-    "nome_usuario": "Isamara Peireira",
-    "email": "isamara123@email.com",
-    "senha": "$2b$10$lhwVc5uqq226psPiViVzneFzkYIhBTsLLWVj7SF72H5e43u7g.GNO",
-    "cpf": "41241242549",
-    "telefone": "1699999999 "
-}
-```
-
----
-### **COBRANÇAS**
-
-#### `POST` `/cobranca/cadastro/:id`
-
-Essa é a rota que permite que uma cobrança seja cadastrada.
-
-#### **Exemplo de requisição**
+Confira o projeto em ação: [Moneyflix](https://moneyflix-front.vercel.app/)
